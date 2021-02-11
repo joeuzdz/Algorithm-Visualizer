@@ -39,7 +39,7 @@ class Button {
 
     //returns true if mouse is on the button
     rollover() {
-        return ((mouseX > 0) && (mouseX < panelWidth) && (mouseY > this.yPos) && (mouseY < this.yPos + buttonHeight));
+        return ((mouseX > 0) && (mouseX < panelWidth) && (mouseY >= this.yPos) && (mouseY < this.yPos + buttonHeight));
     }
 
     //gets called button is clicked

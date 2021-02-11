@@ -40,6 +40,8 @@ function draw() {
     for (let button of sortButtons) {
         button.show();
     }
+
+    checkMousePointer();
 }
 
 //define the globals in setup()
@@ -123,5 +125,15 @@ function mouseClicked() {
         if (button.rollover()) {
             button.clicked();
         }
+    }
+}
+
+function checkMousePointer() {
+    cursor(ARROW);
+    for (let button of sortButtons) {
+        if (button.rollover() && !button.isSelected) {
+            cursor('pointer');
+            break;
+        } 
     }
 }
