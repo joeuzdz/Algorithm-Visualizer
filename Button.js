@@ -32,7 +32,9 @@ class Button {
             case Algo.QUICKSORT:
                 string = 'Quick Sort';
                 break;
-
+            default:
+                string = '???';
+                break;
         }
         text(string, 40, this.yPos + 20);
     }

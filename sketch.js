@@ -3,15 +3,15 @@ let font;
 let panelWidth;
 let displayWidth;
 let midlineX;
-const minScreenHeight = 900;
+//const minScreenHeight = 900;
 
 let algoButtons = [];
 const buttonHeight = 30;
 
 //ALGO ENUM
 let Algo = Object.freeze({BUBBLESORT: 1, 
-                          QUICKSORT: 2,
                           MERGESORT: 3,
+                          QUICKSORT: 2,
                           LINEARSEARCH: 4, 
                           JUMPSEARCH: 5, 
                           BINARYSEARCH: 6,
@@ -21,7 +21,7 @@ let Algo = Object.freeze({BUBBLESORT: 1,
 
 //RUNS ONCE  
 function setup() {
-    createCanvas(windowWidth, max(windowHeight, minScreenHeight));
+    createCanvas(windowWidth, windowHeight);
     defineGlobals();
     setupAlgoButtons();
     textFont(font);
@@ -29,15 +29,15 @@ function setup() {
 
 //RUNS ~60 TIMES/SECOND
 function draw() {
-    resizeCanvas(windowWidth, max(windowHeight, minScreenHeight));
+    resizeCanvas(windowWidth, windowHeight);
     updateDimensions();
     background(backgroundColor);
-    displayGridLines();
+    //displayGridLines();
     
     displayPanel();
     displayScreenDimensions();
 
-    for (let button of sortButtons) {
+    for (let button of algoButtons) {
         button.show();
     }
 
@@ -61,9 +61,9 @@ function setupAlgoButtons() {
     let mergeSortButton = new Button(230, Algo.MERGESORT);
     let quickSortButton = new Button(260, Algo.QUICKSORT);
 
-    sortButtons.push(bubbleSortButton);
-    sortButtons.push(mergeSortButton);
-    sortButtons.push(quickSortButton);
+    algoButtons.push(bubbleSortButton);
+    algoButtons.push(mergeSortButton);
+    algoButtons.push(quickSortButton);
 }
 
 //update dimension-dependent variables
