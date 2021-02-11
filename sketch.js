@@ -1,35 +1,104 @@
 let backgroundColor;
 let font;
+let panelWidth;
+let displayWidth;
+let midlineX;
+const minScreenHeight = 900;
 
+let sortButtons = [];
+const buttonHeight = 30;
+
+//ALGO ENUM
+let Algo = Object.freeze({BUBBLESORT: 1, 
+                          QUICKSORT: 2,
+                          MERGESORT: 3,
+                          LINEARSEARCH: 4, 
+                          JUMPSEARCH: 5, 
+                          BINARYSEARCH: 6,
+                          DIJKSTRAS: 7,
+                          ASTAR: 8
+                        })
+
+//RUNS ONCE  
 function setup() {
-    createCanvas(windowWidth, windowHeight);
-    backgroundColor = color(150);
-    font = 'monospace';
+    createCanvas(windowWidth, max(windowHeight, minScreenHeight));
+    defineGlobals();
+    setupAlgoButtons();
     textFont(font);
 }
 
+//RUNS ~60 TIMES/SECOND
 function draw() {
-    resizeCanvas(windowWidth, windowHeight);
+    resizeCanvas(windowWidth, max(windowHeight, minScreenHeight));
+    updateDimensions();
     background(backgroundColor);
-    //displayGridLines();
-    displayTitle();
+    displayGridLines();
+    
+    displayPanel();
     displayScreenDimensions();
+
+    for (let button of sortButtons) {
+        button.show();
+    }
 }
 
-function displayTitle() {
+//define the globals in setup()
+function defineGlobals() {
+    backgroundColor = color(150);
+    font = 'monospace';
+
+    panelWidth = 250;
+    updateDimensions();
+    
+}
+
+//create the algorithm buttons on the panel
+function setupAlgoButtons() {
+    let bubbleSortButton = new Button(200, Algo.BUBBLESORT);
+    let mergeSortButton = new Button(230, Algo.MERGESORT);
+    let quickSortButton = new Button(260, Algo.QUICKSORT);
+
+    sortButtons.push(bubbleSortButton);
+    sortButtons.push(mergeSortButton);
+    sortButtons.push(quickSortButton);
+}
+
+//update dimension dependent variables
+function updateDimensions() {
+    displayWidth = width - panelWidth;
+    midlineX = displayWidth/2 + panelWidth;
+}
+
+//displays panel where algorithms are shown
+function displayPanel() {
+    displayPanelBackground();
+    displayTitle();
+}
+
+//displays border of panel
+function displayPanelBackground() {
     push();
-    fill(50);
-    noStroke();
-    textAlign(CENTER, TOP);
-    if (width > 1000) {
-        textSize(64);
-    } else {
-        textSize(map(width, 0, 1000, 16, 64));
-    }
-    text('Algorithm Visualizer', width/2, height*0.02);
+    fill(125);
+    stroke(50, 30);
+    strokeWeight(7);
+    rect(0, 0, panelWidth, height);
     pop();
 }
 
+//displays the title in the panel
+function displayTitle() {
+    push();
+    fill(30);
+    noStroke();
+    textAlign(CENTER, TOP);
+    textSize(40);
+    text('Algorithm', panelWidth/2, 15);
+    textSize(36);
+    text('Visualizer', panelWidth/2, 60);
+    pop();
+}
+
+//displays screen dimensions in lower right corner of screen
 function displayScreenDimensions() {
     push();
     textSize(16);
@@ -38,11 +107,21 @@ function displayScreenDimensions() {
     pop();
 }
 
+//displays a vertical and horizontal line through middle of working canvas
 function displayGridLines() {
     push();
     stroke(0);
     strokeWeight(0.2);
-    line(0, height/2, width, height/2);
-    line(width/2, 0, width/2, height);
+    line(panelWidth, height/2, width, height/2);
+    line(midlineX, 0, midlineX, height);
     pop();
+}
+
+//calls necessary functions when mouse is clicked
+function mouseClicked() {
+    for (let button of sortButtons) {
+        if (button.rollover()) {
+            button.clicked();
+        }
+    }
 }
