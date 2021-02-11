@@ -49,7 +49,7 @@ class Button {
         } else {
             this.isSelected = true;
             //deselect any other selected button
-            for (let button of sortButtons) {
+            for (let button of algoButtons) {
                 if (button.type != this.type) {
                     button.isSelected = false;
                 }

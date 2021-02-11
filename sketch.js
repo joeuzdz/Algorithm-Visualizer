@@ -5,7 +5,7 @@ let displayWidth;
 let midlineX;
 const minScreenHeight = 900;
 
-let sortButtons = [];
+let algoButtons = [];
 const buttonHeight = 30;
 
 //ALGO ENUM
@@ -56,6 +56,7 @@ function defineGlobals() {
 
 //create the algorithm buttons on the panel
 function setupAlgoButtons() {
+    
     let bubbleSortButton = new Button(200, Algo.BUBBLESORT);
     let mergeSortButton = new Button(230, Algo.MERGESORT);
     let quickSortButton = new Button(260, Algo.QUICKSORT);
@@ -65,7 +66,7 @@ function setupAlgoButtons() {
     sortButtons.push(quickSortButton);
 }
 
-//update dimension dependent variables
+//update dimension-dependent variables
 function updateDimensions() {
     displayWidth = width - panelWidth;
     midlineX = displayWidth/2 + panelWidth;
@@ -121,7 +122,7 @@ function displayGridLines() {
 
 //calls necessary functions when mouse is clicked
 function mouseClicked() {
-    for (let button of sortButtons) {
+    for (let button of algoButtons) {
         if (button.rollover()) {
             button.clicked();
         }
@@ -130,7 +131,7 @@ function mouseClicked() {
 
 function checkMousePointer() {
     cursor(ARROW);
-    for (let button of sortButtons) {
+    for (let button of algoButtons) {
         if (button.rollover() && !button.isSelected) {
             cursor('pointer');
             break;
