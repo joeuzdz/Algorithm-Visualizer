@@ -9,6 +9,7 @@ class Button {
     //show the button with necessary highlighting
     show() {
         push();
+        rectMode(CORNER);
         noStroke();
         
         if (this.rollover()) {
@@ -37,6 +38,7 @@ class Button {
                 break;
         }
         text(string, 40, this.yPos + 20);
+        pop();
     }
 
     //returns true if mouse is on the button
@@ -49,25 +51,46 @@ class Button {
         if (this.isSelected) {
             //do nothing if already selected
         } else {
+            //deselect all other buttons
+            for (let button of algoButtons) { button.isSelected = false; }
+            //select this button
             this.isSelected = true;
-            //deselect any other selected button
-            for (let button of algoButtons) {
-                if (button.type != this.type) {
-                    button.isSelected = false;
-                }
-            }
+
             //call necessary function
             switch (this.type) {
                 case Algo.BUBBLESORT:
+                    setupBubbleSort();
                     console.log('bubblesort');
                     break;
                 case Algo.MERGESORT:
+                    setupSort();
                     console.log('mergesort');
                     break;
                 case Algo.QUICKSORT:
+                    setupSort();
                     console.log('quicksort');
                     break;
             }
         }
     }
+}
+
+function setupBubbleSort() {
+    currentAlgo = Algo.BUBBLESORT;
+    setupSort();
+}
+
+function setupSort() {
+    
+    currentMode = Mode.SORT;
+    sortCollection = new Sort();
+    sortCollection.updateBars();
+    
+    //call update which will reposition slider appropriately
+    updateNumBarsSlider();
+}
+
+function resetAnimationQueue() {
+    animationQueue = [];
+    animationIterator = 0;
 }
