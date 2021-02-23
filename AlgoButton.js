@@ -1,5 +1,5 @@
 //scratch button class for butttons on panel
-class Button {
+class AlgoButton {
     constructor(yPos, type) {
         this.yPos = yPos;
         this.type = type;
@@ -14,11 +14,11 @@ class Button {
         
         if (this.rollover()) {
             fill(170);
-            rect(3, this.yPos, panelWidth - 8, buttonHeight, 5);
+            rect(3, this.yPos, panelWidth - 8, algoButtonHeight, 5);
         }
         if (this.isSelected) {
             fill(190);
-            rect(3, this.yPos, panelWidth - 8, buttonHeight, 5);
+            rect(3, this.yPos, panelWidth - 8, algoButtonHeight, 5);
         }
         fill(30);
         textSize(20); 
@@ -43,35 +43,33 @@ class Button {
 
     //returns true if mouse is on the button
     rollover() {
-        return ((mouseX > 0) && (mouseX < panelWidth) && (mouseY >= this.yPos) && (mouseY < this.yPos + buttonHeight));
+        return ((mouseX > 0) && (mouseX < panelWidth) && (mouseY >= this.yPos) && (mouseY < this.yPos + algoButtonHeight));
     }
 
-    //gets called button is clicked
+    //gets called when button is clicked
     clicked() {
-        if (this.isSelected) {
-            //do nothing if already selected
-        } else {
-            //deselect all other buttons
-            for (let button of algoButtons) { button.isSelected = false; }
-            //select this button
-            this.isSelected = true;
+    
+        //deselect all other buttons
+        for (let button of algoButtons) { button.isSelected = false; }
+        //select this button
+        this.isSelected = true;
 
-            //call necessary function
-            switch (this.type) {
-                case Algo.BUBBLESORT:
-                    setupBubbleSort();
-                    console.log('bubblesort');
-                    break;
-                case Algo.MERGESORT:
-                    setupSort();
-                    console.log('mergesort');
-                    break;
-                case Algo.QUICKSORT:
-                    setupSort();
-                    console.log('quicksort');
-                    break;
-            }
+        //call necessary function
+        switch (this.type) {
+            case Algo.BUBBLESORT:
+                setupBubbleSort();
+                console.log('bubblesort');
+                break;
+            case Algo.MERGESORT:
+                // setupSort();
+                console.log('mergesort');
+                break;
+            case Algo.QUICKSORT:
+                // setupSort();
+                console.log('quicksort');
+                break;
         }
+        
     }
 }
 
@@ -81,7 +79,9 @@ function setupBubbleSort() {
 }
 
 function setupSort() {
-    
+    resetAnimationQueue();
+    playButton.isEnabled = true;
+    numBarsSlider.removeAttribute('disabled');
     currentMode = Mode.SORT;
     sortCollection = new Sort();
     sortCollection.updateBars();
@@ -93,4 +93,6 @@ function setupSort() {
 function resetAnimationQueue() {
     animationQueue = [];
     animationIterator = 0;
+    animationIsPaused = false;
+    pauseButton.isEnabled = false;
 }

@@ -45,16 +45,15 @@ class Sort {
     //center bars in bar collection on the screen
     resetBarPositions() {
         let minPercentage = 0.4;
-        let maxPercentage = 0.7;
+        let maxPercentage = 0.8;
         let screenPercentage = this.scale(this.items.length, numBarsSlider.elt.min, numBarsSlider.elt.max, minPercentage, maxPercentage);
-        //let barCollectionWidth = width * screenPercentage;
+        
         let sortCollectionWidth = displayWidth * screenPercentage;
         sortCollectionWidth -= this.barSpacing * this.items.length;
         this.barWidth = sortCollectionWidth / this.items.length;
         
         let midIdx = floor(this.items.length/2);
         let midBar = this.items[midIdx];
-        //midBar.xPos = width/2;
         midBar.xPos = midlineX;
 
         midBar.yPos = height/2;
