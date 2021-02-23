@@ -44,7 +44,7 @@ class SortingBar {
         this.xPos = swapXPos;
         barToSwap.xPos = thisXPos;
 
-        // let numFrames;
+        let numFrames;
         if (sortCollection.items.length > (numBarsSliderMax+numBarsSliderMin) / 2) {
             numFrames = 1;
         } else {

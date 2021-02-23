@@ -1,4 +1,3 @@
-let numFrames;
 
 //general globals
 let backgroundColor;
@@ -10,7 +9,18 @@ let midlineX;
 
 //button globals
 let algoButtons = [];
-const buttonHeight = 30;
+const algoButtonHeight = 30;
+//control buttons and their graphics
+let controlButtons = [];
+let playButton, playButtonEnGraphic, playButtonDisGraphic;
+let pauseButton, pauseButtonEnGraphic, pauseButtonDisGraphic;
+let resetButton, resetButtonEnGraphic, resetButtonDisGraphic;
+
+let ControlType = Object.freeze({
+                    PLAY: 1,
+                    PAUSE: 2,
+                    RESET: 3
+                    })
 
 //mode globals
 let currentAlgo;
@@ -40,6 +50,7 @@ let Mode = Object.freeze({
 //animation queue
 let animationQueue = [];
 let animationIterator = 0;
+let animationIsPaused = false;
 
 //collection globals 
 let sortCollection;
@@ -55,8 +66,11 @@ function setup() {
     createCanvas(windowWidth, windowHeight);
     defineGlobals();
     setupAlgoButtons();
+    createControlButtonGraphics();
+    setupControlButtons();
     textFont(font);
     rectMode(CENTER);
+    imageMode(CENTER);
     setupNumBarsSlider();
     
 }
@@ -71,8 +85,8 @@ function draw() {
     displayPanel();
     displayScreenDimensions();
 
-    for (let button of algoButtons) {
-        button.show();
+    if (currentMode != Mode.DEFAULT) {
+        displayControlButtons();
     }
 
     checkMousePointer();
@@ -80,12 +94,16 @@ function draw() {
 
     if (animationQueue.length != 0) { //then display animation queue frame by frame
 
-        for (let bar of animationQueue[animationIterator++]) {
+        for (let bar of animationQueue[animationIterator]) {
             bar.show();
         }
+
+        if (!animationIsPaused) {
+            animationIterator++;
+        }
+
         if (animationQueue.length <= animationIterator) {
-            animationQueue = [];
-            animationIterator = 0;
+            resetAnimationQueue();
         }
 
     } else { //check currentMode to see what to display 
@@ -100,9 +118,7 @@ function draw() {
         }
 
     }
-
-
-
+    
 }
 
 //define the globals in setup()
@@ -121,13 +137,33 @@ function defineGlobals() {
 
 //create the algorithm buttons on the panel
 function setupAlgoButtons() {
-    let bubbleSortButton = new Button(200, Algo.BUBBLESORT);
-    let mergeSortButton = new Button(230, Algo.MERGESORT);
-    let quickSortButton = new Button(260, Algo.QUICKSORT);
+    let bubbleSortButton = new AlgoButton(200, Algo.BUBBLESORT);
+    let mergeSortButton = new AlgoButton(230, Algo.MERGESORT);
+    let quickSortButton = new AlgoButton(260, Algo.QUICKSORT);
 
     algoButtons.push(bubbleSortButton);
     algoButtons.push(mergeSortButton);
     algoButtons.push(quickSortButton);
+}
+
+function setupControlButtons() {
+    playButton = new ControlButton(ControlType.PLAY, 70, 50, true);
+    pauseButton = new ControlButton(ControlType.PAUSE, 50, 50, false);
+    resetButton = new ControlButton(ControlType.RESET, 50, 50, true);
+
+    controlButtons.push(playButton);
+    controlButtons.push(pauseButton);
+    controlButtons.push(resetButton);
+
+}
+
+function updateControlButtonPositions() {
+    playButton.xPos = midlineX;
+    playButton.yPos = height - 50;
+    pauseButton.xPos = midlineX - 65;
+    pauseButton.yPos = height - 50;
+    resetButton.xPos = midlineX + 65;
+    resetButton.yPos = height - 50;
 }
 
 //update dimension-dependent variables
@@ -140,6 +176,7 @@ function updateDimensions() {
 function displayPanel() {
     displayPanelBackground();
     displayTitle();
+    displayAlgoButtons();
 }
 
 //displays border of panel
@@ -166,6 +203,28 @@ function displayTitle() {
     pop();
 }
 
+function displayAlgoButtons() {
+    for (let button of algoButtons) {
+        button.show();
+    }
+}
+
+function displayControlButtons() {
+    updateControlButtonPositions();
+    
+    push();
+    stroke(100);
+    strokeWeight(2);
+    noStroke();
+    fill(130);
+    rect(midlineX, height - 50, 120, 40);
+    pop();
+    
+    for (let button of controlButtons) {
+        button.show();
+    }
+}
+
 //displays screen dimensions in lower right corner of screen
 function displayScreenDimensions() {
     push();
@@ -188,7 +247,12 @@ function displayGridLines() {
 //calls necessary functions when mouse is clicked
 function mouseClicked() {
     for (let button of algoButtons) {
-        if (button.rollover()) {
+        if (button.rollover() && !button.isSelected) {
+            button.clicked();
+        }
+    }
+    for (let button of controlButtons) {
+        if (button.rollover() && button.isEnabled) {
             button.clicked();
         }
     }
@@ -202,6 +266,12 @@ function checkMousePointer() {
             cursor('pointer');
             break;
         } 
+    }
+    for (let button of controlButtons) {
+        if (button.rollover() && button.isEnabled) {
+            cursor('pointer');
+            break;
+        }
     }
 }
 
@@ -223,7 +293,7 @@ function setupNumBarsSlider() {
 
 function updateNumBarsSlider() {
     let xPos = midlineX - numBarsSlider.width/2;
-    let yPos = height*0.9;
+    let yPos = height - 110;
     numBarsSlider.position(xPos, yPos);
 }
 
