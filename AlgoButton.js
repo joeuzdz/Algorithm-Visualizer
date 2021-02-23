@@ -20,7 +20,12 @@ class AlgoButton {
             fill(190);
             rect(3, this.yPos, panelWidth - 8, algoButtonHeight, 5);
         }
-        fill(30);
+        
+        if (this.isSelected || this.rollover()) {
+            fill(20);
+        } else {
+            fill(130);
+        }
         textSize(20); 
         let string;
         switch (this.type) {

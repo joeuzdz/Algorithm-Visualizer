@@ -50,7 +50,6 @@ class ControlButton {
         if (this.type == ControlType.PLAY) {
             playAlgorithm();
             pauseButton.isEnabled = true;
-            console.log('flag');
             numBarsSlider.elt.setAttribute('disabled', 'true');
         } else if (this.type == ControlType.PAUSE) {
             animationIsPaused = true;
@@ -59,7 +58,6 @@ class ControlButton {
         } else if (this.type == ControlType.RESET) {
             if (currentMode == Mode.SORT) {
                 setupSort();
-                console.log(animationIsPaused);
             }
         }
     }

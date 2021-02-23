@@ -106,10 +106,13 @@ class Sort {
                     swap = true;
                 }
             }
+            this.items[n].color = color('#990000');
             n--;
         } while (swap);
         
-        
+        for(let bar of this.items) {
+            bar.color = color('#990000');
+        }
     }
 
     cloneArray(arr) {

@@ -3,7 +3,7 @@ function createControlButtonGraphics() {
     playButtonEnGraphic = createGraphics(70, 50);
     playButtonEnGraphic.strokeWeight(2);
     playButtonEnGraphic.stroke(100);
-    playButtonEnGraphic.fill(220);
+    playButtonEnGraphic.fill(230);
     playButtonEnGraphic.rect(1,1,68,48,30);
     playButtonEnGraphic.fill(0);
     playButtonEnGraphic.noStroke();
@@ -30,7 +30,7 @@ function createControlButtonGraphics() {
     pauseButtonEnGraphic = createGraphics(50, 50);
     pauseButtonEnGraphic.strokeWeight(2);
     pauseButtonEnGraphic.stroke(100);
-    pauseButtonEnGraphic.fill(220);
+    pauseButtonEnGraphic.fill(230);
     pauseButtonEnGraphic.ellipse(25, 25, 45);
     pauseButtonEnGraphic.fill(0);
     pauseButtonEnGraphic.noStroke();
@@ -60,12 +60,12 @@ function createControlButtonGraphics() {
     resetButtonEnGraphic = createGraphics(50, 50);
     resetButtonEnGraphic.strokeWeight(2);
     resetButtonEnGraphic.stroke(100);
-    resetButtonEnGraphic.fill(220);
+    resetButtonEnGraphic.fill(230);
     resetButtonEnGraphic.ellipse(25, 25, 45);
     resetButtonEnGraphic.noStroke();
     resetButtonEnGraphic.fill(0);
     resetButtonEnGraphic.ellipse(25, 25, 26);
-    resetButtonEnGraphic.fill(220);
+    resetButtonEnGraphic.fill(230);
     resetButtonEnGraphic.ellipse(25, 25, 20);
     resetButtonEnGraphic.rect(32,17,10,10);
     resetButtonEnGraphic.fill(0);

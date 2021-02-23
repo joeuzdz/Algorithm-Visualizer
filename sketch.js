@@ -123,7 +123,7 @@ function draw() {
 
 //define the globals in setup()
 function defineGlobals() {
-    backgroundColor = color(150);
+    backgroundColor = color(30);
     font = 'monospace';
 
     panelWidth = 250;
@@ -182,7 +182,7 @@ function displayPanel() {
 //displays border of panel
 function displayPanelBackground() {
     push();
-    fill(125);
+    fill(20);
     stroke(50, 30);
     strokeWeight(7);
     rectMode(CORNER)
@@ -193,7 +193,7 @@ function displayPanelBackground() {
 //displays the title in the panel
 function displayTitle() {
     push();
-    fill(30);
+    fill(130);
     noStroke();
     textAlign(CENTER, TOP);
     textSize(40);
@@ -213,10 +213,9 @@ function displayControlButtons() {
     updateControlButtonPositions();
     
     push();
-    stroke(100);
+    stroke(40);
     strokeWeight(2);
-    noStroke();
-    fill(130);
+    fill(0);
     rect(midlineX, height - 50, 120, 40);
     pop();
     
