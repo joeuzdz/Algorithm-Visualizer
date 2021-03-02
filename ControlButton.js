@@ -6,34 +6,34 @@ class ControlButton {
         this.xPos;
         this.yPos;
         this.isEnabled = isEnabled;
+        this.isPaused = true;
     }
 
     show() {
         if (this.type == ControlType.PLAY) {
-            if (this.isEnabled) {
-                if (this.rollover()) {
-                    image(playButtonMOGraphic, this.xPos, this.yPos);
-                } else {
-                    image(playButtonEnGraphic, this.xPos, this.yPos);
-                }
-            } else {
+            if (!this.isEnabled) {
                 image(playButtonDisGraphic, this.xPos, this.yPos);
-            }
-        } else if (this.type == ControlType.PAUSE) {
-            if (this.isEnabled) {
-                if (this.rollover()) {
-                    image(pauseButtonMOGraphic, this.xPos, this.yPos);
-                } else {
-                    image(pauseButtonEnGraphic, this.xPos, this.yPos);
-                }
             } else {
-                image(pauseButtonDisGraphic, this.xPos, this.yPos);
+                if (this.isPaused) {
+                    if (this.rollover()) {
+                        image(playButtonMOGraphic, this.xPos, this.yPos);
+                    } else {
+                        image(playButtonGraphic, this.xPos, this.yPos);
+                    }
+                } else {
+                    if (this.rollover()) {
+                        image(pauseButtonMOGraphic, this.xPos, this.yPos);
+                    } else {
+                        image(pauseButtonGraphic, this.xPos, this.yPos);
+                    }
+                }
             }
+            
         } else if (this.type == ControlType.RESET) {
             if (this.rollover()) {
                 image(resetButtonMOGraphic, this.xPos, this.yPos);
             } else {
-                image(resetButtonEnGraphic, this.xPos, this.yPos);
+                image(resetButtonGraphic, this.xPos, this.yPos);
             }
         }
     }
@@ -48,18 +48,19 @@ class ControlButton {
 
     clicked() {
         if (this.type == ControlType.PLAY) {
-            playAlgorithm();
-            pauseButton.isEnabled = true;
-            console.log('flag');
-            numBarsSlider.elt.setAttribute('disabled', 'true');
-        } else if (this.type == ControlType.PAUSE) {
-            animationIsPaused = true;
-            playButton.isEnabled = true;
-            pauseButton.isEnabled = false;
+            
+            if (this.isPaused) {
+                playAlgorithm();
+                this.isPaused = false;
+                numBarsSlider.elt.setAttribute('disabled', 'true');
+            } else {
+                animationIsPaused = true;
+                this.isPaused = true;
+            }
+
         } else if (this.type == ControlType.RESET) {
             if (currentMode == Mode.SORT) {
                 setupSort();
-                console.log(animationIsPaused);
             }
         }
     }
@@ -81,6 +82,4 @@ function playAlgorithm() {
         case Algo.QUICKSORT:
             break;
     }
-
-    playButton.isEnabled = false;
 }

@@ -81,6 +81,7 @@ function setupBubbleSort() {
 function setupSort() {
     resetAnimationQueue();
     playButton.isEnabled = true;
+    playButton.isPaused = true;
     numBarsSlider.removeAttribute('disabled');
     currentMode = Mode.SORT;
     sortCollection = new Sort();
@@ -94,5 +95,6 @@ function resetAnimationQueue() {
     animationQueue = [];
     animationIterator = 0;
     animationIsPaused = false;
-    pauseButton.isEnabled = false;
+    playButton.isEnabled = false;
+    playButton.isPaused = true;
 }

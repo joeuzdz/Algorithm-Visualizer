@@ -12,9 +12,9 @@ let algoButtons = [];
 const algoButtonHeight = 30;
 //control buttons and their graphics
 let controlButtons = [];
-let playButton, playButtonEnGraphic, playButtonDisGraphic;
-let pauseButton, pauseButtonEnGraphic, pauseButtonDisGraphic;
-let resetButton, resetButtonEnGraphic, resetButtonDisGraphic;
+let playButton, playButtonGraphic, playButtonMOGraphic, playButtonDisGraphic;
+let pauseButtonGraphic, pauseButtonMOGraphic;
+let resetButton, resetButtonGraphic, resetButtonMOGraphic;
 
 let ControlType = Object.freeze({
                     PLAY: 1,
@@ -123,7 +123,7 @@ function draw() {
 
 //define the globals in setup()
 function defineGlobals() {
-    backgroundColor = color(150);
+    backgroundColor = color(180);
     font = 'monospace';
 
     panelWidth = 250;
@@ -148,21 +148,19 @@ function setupAlgoButtons() {
 
 function setupControlButtons() {
     playButton = new ControlButton(ControlType.PLAY, 70, 50, true);
-    pauseButton = new ControlButton(ControlType.PAUSE, 50, 50, false);
+    // pauseButton = new ControlButton(ControlType.PAUSE, 50, 50, false);
     resetButton = new ControlButton(ControlType.RESET, 50, 50, true);
 
     controlButtons.push(playButton);
-    controlButtons.push(pauseButton);
+    // controlButtons.push(pauseButton);
     controlButtons.push(resetButton);
 
 }
 
 function updateControlButtonPositions() {
-    playButton.xPos = midlineX;
+    playButton.xPos = midlineX - 30;
     playButton.yPos = height - 50;
-    pauseButton.xPos = midlineX - 65;
-    pauseButton.yPos = height - 50;
-    resetButton.xPos = midlineX + 65;
+    resetButton.xPos = midlineX + 35;
     resetButton.yPos = height - 50;
 }
 
@@ -216,8 +214,8 @@ function displayControlButtons() {
     stroke(100);
     strokeWeight(2);
     noStroke();
-    fill(130);
-    rect(midlineX, height - 50, 120, 40);
+    fill(150);
+    rect(midlineX, height - 50, 60, 45);
     pop();
     
     for (let button of controlButtons) {
