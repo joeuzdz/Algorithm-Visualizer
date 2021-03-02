@@ -148,11 +148,11 @@ function setupAlgoButtons() {
 
 function setupControlButtons() {
     playButton = new ControlButton(ControlType.PLAY, 70, 50, true);
-    pauseButton = new ControlButton(ControlType.PAUSE, 50, 50, false);
+    // pauseButton = new ControlButton(ControlType.PAUSE, 50, 50, false);
     resetButton = new ControlButton(ControlType.RESET, 50, 50, true);
 
     controlButtons.push(playButton);
-    controlButtons.push(pauseButton);
+    // controlButtons.push(pauseButton);
     controlButtons.push(resetButton);
 
 }
@@ -160,8 +160,8 @@ function setupControlButtons() {
 function updateControlButtonPositions() {
     playButton.xPos = midlineX;
     playButton.yPos = height - 50;
-    pauseButton.xPos = midlineX - 65;
-    pauseButton.yPos = height - 50;
+    // pauseButton.xPos = midlineX - 65;
+    // pauseButton.yPos = height - 50;
     resetButton.xPos = midlineX + 65;
     resetButton.yPos = height - 50;
 }
@@ -213,11 +213,12 @@ function displayControlButtons() {
     updateControlButtonPositions();
     
     push();
+    rectMode(CORNER);
     stroke(100);
     strokeWeight(2);
     noStroke();
     fill(130);
-    rect(midlineX, height - 50, 120, 40);
+    rect(midlineX, height - 50, 60, 40);
     pop();
     
     for (let button of controlButtons) {
