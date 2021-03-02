@@ -19,16 +19,17 @@ class ControlButton {
             } else {
                 image(playButtonDisGraphic, this.xPos, this.yPos);
             }
-        } else if (this.type == ControlType.PAUSE) {
-            if (this.isEnabled) {
-                if (this.rollover()) {
-                    image(pauseButtonMOGraphic, this.xPos, this.yPos);
-                } else {
-                    image(pauseButtonEnGraphic, this.xPos, this.yPos);
-                }
-            } else {
-                image(pauseButtonDisGraphic, this.xPos, this.yPos);
-            }
+        // } 
+        // else if (this.type == ControlType.PAUSE) {
+        //     if (this.isEnabled) {
+        //         if (this.rollover()) {
+        //             image(pauseButtonMOGraphic, this.xPos, this.yPos);
+        //         } else {
+        //             image(pauseButtonEnGraphic, this.xPos, this.yPos);
+        //         }
+        //     } else {
+        //         image(pauseButtonDisGraphic, this.xPos, this.yPos);
+        //     }
         } else if (this.type == ControlType.RESET) {
             if (this.rollover()) {
                 image(resetButtonMOGraphic, this.xPos, this.yPos);
