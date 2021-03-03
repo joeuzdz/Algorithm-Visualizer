@@ -17,7 +17,8 @@ class Sort {
 
         //if start of program, add one initial bar
         if (this.items.length == 0) {
-            let barValue = random(randMinValue, randMaxValue);
+            let barValue = random(0.1, 1);
+            // let barValue = random(randMinValue, randMaxValue);
             let newBar = new SortingBar(barValue);
             this.items.push(newBar);
         }
@@ -27,11 +28,13 @@ class Sort {
             let toAdd = numBarsSlider.value() - this.items.length;
             for (let i = 0; i < floor(toAdd/2); i++) {
                 //add new bar to the end of array
-                let barValue = random(randMinValue, randMaxValue);
+                // let barValue = random(randMinValue, randMaxValue);
+                let barValue = random(0.1, 1);
                 let newBar = new SortingBar(barValue);
                 this.items.push(newBar);
                 //add new bar to the front of array
-                barValue = random(randMinValue, randMaxValue);
+                // barValue = random(randMinValue, randMaxValue);
+                barValue = random(0.1, 1);
                 newBar = new SortingBar(barValue);
                 this.items.unshift(newBar);
             }
@@ -46,7 +49,7 @@ class Sort {
     resetBarPositions() {
         let minPercentage = 0.4;
         let maxPercentage = 0.8;
-        let screenPercentage = this.scale(this.items.length, numBarsSlider.elt.min, numBarsSlider.elt.max, minPercentage, maxPercentage);
+        let screenPercentage = map(this.items.length, numBarsSlider.elt.min, numBarsSlider.elt.max, minPercentage, maxPercentage);
         
         let sortCollectionWidth = displayWidth * screenPercentage;
         sortCollectionWidth -= this.barSpacing * this.items.length;
@@ -82,11 +85,6 @@ class Sort {
         }
     }
     
-    //used in this.show() to scale number of bars to screen width
-    //      SAME THING AS MAP (SWITCH)
-    scale(num, in_min, in_max, out_min, out_max) {
-        return (num - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-    }
 
     //use animation queue, all processing time up front (takes a while to load)
     bubbleSort() {

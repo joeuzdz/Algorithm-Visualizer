@@ -13,7 +13,7 @@ class SortingBar {
         push();
         fill(this.color);
         noStroke();
-        rect(this.xPos, this.yPos, this.width, this.value, this.rounded);
+        rect(this.xPos, this.yPos, this.width, this.value * (height/2), this.rounded);
         pop();
     }
 
