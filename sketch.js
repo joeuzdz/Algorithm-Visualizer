@@ -97,7 +97,9 @@ function draw() {
 
     if (animationQueue.length != 0) { //then display animation queue frame by frame
         let nextFrame = animationQueue[animationIterator];
-        repositionSortingFrame(nextFrame);
+        //IGNORING SWAPPING ANIMATION
+        //FIX
+        // repositionSortingFrame(nextFrame);
         for (let bar of nextFrame) {
             bar.show();
         }
