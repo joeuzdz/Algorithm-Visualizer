@@ -115,9 +115,9 @@ class Sort {
             n--;
         } while (swap);
         
-        // for(let bar of this.items) {
-        //     bar.color = color('#990000');
-        // }
+        for(let bar of this.items) {
+            bar.color = color(251, 150, 138, 230);
+        }
     }
 
     insertionSort() {
@@ -141,9 +141,9 @@ class Sort {
             this.items[j+1] = current;
         }
 
-        // for(let bar of this.items) {
-        //     bar.color = color('#990000');
-        // }
+        for(let bar of this.items) {
+            bar.color = color(251, 150, 138, 230);
+        }
     }
 
     selectionSort() {
@@ -167,6 +167,9 @@ class Sort {
                 inputArr[i] = inputArr[min];
                 inputArr[min] = tmp;      
             }
+        }
+        for(let bar of this.items) {
+            bar.color = color(251, 150, 138, 230);
         }
     
     }
