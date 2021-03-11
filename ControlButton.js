@@ -84,6 +84,13 @@ function playAlgorithm() {
                 animationIsPaused = false;
             }
             break;
+        case Algo.SELECTIONSORT:
+            if (animationQueue.length == 0) {
+                sortCollection.selectionSort();
+            } else {
+                animationIsPaused = false;
+            }
+            break;
         case Algo.MERGESORT:
             if (animationQueue.length == 0) {
                 sortCollection.mergeSort();

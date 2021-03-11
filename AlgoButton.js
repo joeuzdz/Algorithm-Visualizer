@@ -10,18 +10,18 @@ class AlgoButton {
     show() {
         push();
         rectMode(CORNER);
-        noStroke();
-        
+        stroke(0);
+        fill(150);
         if (this.rollover()) {
             fill(170);
-            rect(3, this.yPos, panelWidth - 8, algoButtonHeight, 5);
         }
         if (this.isSelected) {
             fill(190);
-            rect(3, this.yPos, panelWidth - 8, algoButtonHeight, 5);
         }
+        rect(3, this.yPos, panelWidth - 8, algoButtonHeight, 5);
+        noStroke();
         fill(30);
-        textSize(20); 
+        textSize(18); 
         let string;
         switch (this.type) {
             case Algo.BUBBLESORT:
@@ -29,6 +29,9 @@ class AlgoButton {
                 break;
             case Algo.INSERTIONSORT:
                 string = 'Insertion Sort';
+                break;
+            case Algo.SELECTIONSORT:
+                string = 'Selection Sort';
                 break;
             case Algo.MERGESORT:
                 string = 'Merge Sort';
@@ -68,6 +71,11 @@ class AlgoButton {
                 currentAlgo = Algo.INSERTIONSORT;
                 setupSort();
                 console.log('insertion sort');
+                break;
+            case Algo.SELECTIONSORT:
+                currentAlgo = Algo.SELECTIONSORT;
+                setupSort();
+                console.log('selection sort');
                 break;
             case Algo.MERGESORT:
                 currentAlgo = Algo.MERGESORT;

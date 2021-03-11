@@ -37,6 +37,7 @@ let Algo = Object.freeze({
                     DIJKSTRAS: 8,
                     ASTAR: 9,
                     INSERTIONSORT: 10,
+                    SELECTIONSORT: 11,
                     })
 //MODE ENUM
 let Mode = Object.freeze({
@@ -144,15 +145,23 @@ function defineGlobals() {
 
 //create the algorithm buttons on the panel
 function setupAlgoButtons() {
-    let bubbleSortButton = new AlgoButton(200, Algo.BUBBLESORT);
-    let insertionSortButton = new AlgoButton(230, Algo.INSERTIONSORT);
-    let mergeSortButton = new AlgoButton(260, Algo.MERGESORT);
-    let quickSortButton = new AlgoButton(290, Algo.QUICKSORT);
+    let baseYPos = 200;
+    let spacing = 35;
+    let i = 0;
 
+    let bubbleSortButton = new AlgoButton(baseYPos + spacing*i++, Algo.BUBBLESORT);
+    let insertionSortButton = new AlgoButton(baseYPos + spacing*i++, Algo.INSERTIONSORT);
+    let selectionSortButton = new AlgoButton(baseYPos + spacing*i++, Algo.SELECTIONSORT);
+    
     algoButtons.push(bubbleSortButton);
     algoButtons.push(insertionSortButton);
-    algoButtons.push(mergeSortButton);
-    algoButtons.push(quickSortButton);
+    algoButtons.push(selectionSortButton);
+
+
+    // let mergeSortButton = new AlgoButton(290, Algo.MERGESORT);
+    // let quickSortButton = new AlgoButton(320, Algo.QUICKSORT);
+    // algoButtons.push(mergeSortButton);
+    // algoButtons.push(quickSortButton);
 }
 
 function setupControlButtons() {
