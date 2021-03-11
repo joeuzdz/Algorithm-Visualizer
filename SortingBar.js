@@ -14,6 +14,7 @@ class SortingBar {
         fill(this.color);
         noStroke();
         rect(this.xPos, this.yPos, this.width, this.value * (height/2), this.rounded);
+        // rect(this.xPos, this.yPos, this.width, this.value * (height), this.rounded);
         pop();
     }
 

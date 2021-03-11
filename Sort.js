@@ -12,8 +12,8 @@ class Sort {
 
     //update number of bars in the collection, remove or add as neccessary
     updateNumBars() {
-        let randMinValue = height*0.01;
-        let randMaxValue = height*0.5;
+        // let randMinValue = height*0.01;
+        // let randMaxValue = height*0.5;
 
         //if start of program, add one initial bar
         if (this.items.length == 0) {
@@ -50,7 +50,7 @@ class Sort {
         let minPercentage = 0.4;
         let maxPercentage = 0.8;
         let screenPercentage = map(this.items.length, numBarsSlider.elt.min, numBarsSlider.elt.max, minPercentage, maxPercentage);
-        
+        // screenPercentage = 1;
         let sortCollectionWidth = displayWidth * screenPercentage;
         sortCollectionWidth -= this.barSpacing * this.items.length;
         this.barWidth = sortCollectionWidth / this.items.length;
@@ -144,6 +144,31 @@ class Sort {
         // for(let bar of this.items) {
         //     bar.color = color('#990000');
         // }
+    }
+
+    selectionSort() {
+        let inputArr = this.items;
+        let n = inputArr.length;
+        
+        for(let i = 0; i < n; i++) {
+            // Finding the smallest number in the subarray
+            let min = i;
+            for(let j = i+1; j < n; j++){
+                if(inputArr[j].value < inputArr[min].value) {
+                    min=j; 
+                }
+            }
+            if (min != i) {
+
+                inputArr[min].animateSwap(inputArr[i]);
+
+                // Swapping the elements
+                let tmp = inputArr[i]; 
+                inputArr[i] = inputArr[min];
+                inputArr[min] = tmp;      
+            }
+        }
+    
     }
 
     //iterative
