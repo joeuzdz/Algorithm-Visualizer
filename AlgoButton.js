@@ -27,6 +27,9 @@ class AlgoButton {
             case Algo.BUBBLESORT:
                 string = 'Bubble Sort';
                 break;
+            case Algo.INSERTIONSORT:
+                string = 'Insertion Sort';
+                break;
             case Algo.MERGESORT:
                 string = 'Merge Sort';
                 break;
@@ -60,6 +63,11 @@ class AlgoButton {
                 currentAlgo = Algo.BUBBLESORT;
                 setupSort();
                 console.log('bubblesort');
+                break;
+            case Algo.INSERTIONSORT:
+                currentAlgo = Algo.INSERTIONSORT;
+                setupSort();
+                console.log('insertion sort');
                 break;
             case Algo.MERGESORT:
                 currentAlgo = Algo.MERGESORT;
