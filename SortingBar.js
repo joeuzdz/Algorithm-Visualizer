@@ -1,5 +1,5 @@
 class SortingBar {
-    constructor(value,id=globalID++, x=0, y=0, width=0, c=color(40, 200)) {
+    constructor(value,id=globalID++, x=0, y=0, width=0, c=color(200, 200)) {
         this.value = value;
         this.id = id;
         this.xPos = x;
@@ -62,14 +62,15 @@ class SortingBar {
                 swapClone.xPos += (xDist/numFrames);
             }
             
-            // swapClone.color = color('#e5e500');
-            // thisClone.color = color('#cccc00');
-
-            swapClone.color = color(200);
-            thisClone.color = color(220);
 
             // swapClone.color = color(200);
-            // thisClone.color = color('red');
+            // thisClone.color = color(220);
+
+            swapClone.color = color(252, 172, 163, 230);
+            thisClone.color = color(251, 150, 138, 230);
+            
+            
+            
             
             
             newFrame.push(thisClone);
