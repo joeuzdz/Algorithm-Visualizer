@@ -85,8 +85,15 @@ class Sort {
         }
     }
     
+    cloneArray(arr) {
+        let clonedArray = [];
+        for (let bar of arr) {
+            let clonedBar = bar.clone();
+            clonedArray.push(clonedBar);
+        }
+        return clonedArray;
+    }
 
-    //use animation queue, all processing time up front (takes a while to load)
     bubbleSort() {
         let swap;
         let n = this.items.length-1;
@@ -104,7 +111,7 @@ class Sort {
                     swap = true;
                 }
             }
-            this.items[n].color = color('#990000');
+            // this.items[n].color = color('#990000');
             n--;
         } while (swap);
         
@@ -113,13 +120,62 @@ class Sort {
         }
     }
 
-    cloneArray(arr) {
-        let clonedArray = [];
-        for (let bar of arr) {
-            let clonedBar = bar.clone();
-            clonedArray.push(clonedBar);
+    //iterative
+    //no visualization yet
+    mergeSort () {
+        //Create two arrays for sorting
+        let sorted = [...this.items];
+        let n = sorted.length;
+        let buffer = new Array(n);
+        
+        for (let size = 1; size < n; size *= 2) {
+            for (let leftStart = 0; leftStart < n; leftStart += 2*size) {
+                
+                //Get the two sub arrays
+                let left = leftStart;
+                let right = min(left + size, n);
+                let leftLimit = right;
+                let rightLimit = min(right + size, n);
+                
+                //Merge the sub arrays
+                merge(left, right, leftLimit, rightLimit, sorted, buffer);  
+            }
+            
+            //Swap the sorted sub array and merge them
+            let temp = sorted;
+            sorted = buffer;
+            buffer = temp;
         }
-        return clonedArray;
-    }
+        
+        this.items = sorted;
+        for(let bar of this.items) {
+            bar.color = color('#990000');
+        }
+      }
 
 }
+
+//iterative
+function merge (left, right, leftLimit, rightLimit, sorted, buffer) {
+    let i = left;
+    
+    //Compare the two sub arrays and merge them in the sorted order
+    while (left < leftLimit && right < rightLimit) {
+        if (sorted[left].value <= sorted[right].value) {
+            buffer[i++] = sorted[left++];
+        } else {
+            buffer[i++] = sorted[right++];
+        }
+    }
+  
+    //If there are elements in the left sub arrray then add it to the result
+    while (left < leftLimit) {
+        buffer[i++] = sorted[left++];
+    }
+  
+    //If there are elements in the right sub array then add it to the result
+    while (right < rightLimit) {
+        buffer[i++] = sorted[right++];
+    }
+}
+

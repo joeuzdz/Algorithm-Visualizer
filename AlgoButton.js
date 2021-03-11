@@ -57,11 +57,13 @@ class AlgoButton {
         //call necessary function
         switch (this.type) {
             case Algo.BUBBLESORT:
-                setupBubbleSort();
+                currentAlgo = Algo.BUBBLESORT;
+                setupSort();
                 console.log('bubblesort');
                 break;
             case Algo.MERGESORT:
-                // setupSort();
+                currentAlgo = Algo.MERGESORT;
+                setupSort();
                 console.log('mergesort');
                 break;
             case Algo.QUICKSORT:
@@ -73,17 +75,12 @@ class AlgoButton {
     }
 }
 
-function setupBubbleSort() {
-    currentAlgo = Algo.BUBBLESORT;
-    setupSort();
-}
-
 function setupSort() {
+    currentMode = Mode.SORT;
     resetAnimationQueue();
     playButton.isEnabled = true;
     playButton.isPaused = true;
     numBarsSlider.removeAttribute('disabled');
-    currentMode = Mode.SORT;
     sortCollection = new Sort();
     sortCollection.updateBars();
     

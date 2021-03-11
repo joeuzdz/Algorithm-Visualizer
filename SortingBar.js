@@ -50,6 +50,7 @@ class SortingBar {
         } else {
             numFrames = floor(map(sortCollection.items.length, numBarsSliderMin, (numBarsSliderMax+numBarsSliderMin) / 2, 15, 1));
         }
+        // numFrames = 100;
         for (let i = 1; i <= numFrames; i++) {
             let newFrame = sortCollection.cloneArray(baseFrame);
             if (thisXPos < swapXPos) {

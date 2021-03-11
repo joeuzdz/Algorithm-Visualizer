@@ -301,56 +301,56 @@ function updateNumBarsSlider() {
     numBarsSlider.position(xPos, yPos);
 }
 
-function repositionSortingFrame(frame) {
-    reorderFrame(frame);
-    let minPercentage = 0.4;
-    let maxPercentage = 0.8;
-    let screenPercentage = map(frame.length, numBarsSlider.elt.min, numBarsSlider.elt.max, minPercentage, maxPercentage);
+// function repositionSortingFrame(frame) {
+//     reorderFrame(frame);
+//     let minPercentage = 0.4;
+//     let maxPercentage = 0.8;
+//     let screenPercentage = map(frame.length, numBarsSlider.elt.min, numBarsSlider.elt.max, minPercentage, maxPercentage);
     
-    let sortCollectionWidth = displayWidth * screenPercentage;
-    sortCollectionWidth -= sortCollection.barSpacing * frame.length;
-    let barWidth = sortCollectionWidth / frame.length;
+//     let sortCollectionWidth = displayWidth * screenPercentage;
+//     sortCollectionWidth -= sortCollection.barSpacing * frame.length;
+//     let barWidth = sortCollectionWidth / frame.length;
     
-    let midIdx = floor(frame.length/2);
-    let midBar = frame[midIdx];
-    midBar.xPos = midlineX;
+//     let midIdx = floor(frame.length/2);
+//     let midBar = frame[midIdx];
+//     midBar.xPos = midlineX;
 
-    midBar.yPos = height/2;
-    midBar.width = barWidth;
+//     midBar.yPos = height/2;
+//     midBar.width = barWidth;
 
-    for (let i = 0; i <= midIdx; i++) {
-        //calculate leftBar position
-        let leftBar = frame[midIdx - i];
-        leftBar.xPos = midlineX - i*(barWidth + sortCollection.barSpacing);
-        leftBar.yPos = height/2;
-        leftBar.width = barWidth;
-        //calculate rightBar position
-        let rightBar = frame[midIdx + i];
-        rightBar.xPos = midlineX + i*(barWidth + sortCollection.barSpacing);
-        rightBar.yPos = height/2;
-        rightBar.width = barWidth;
-    }
+//     for (let i = 0; i <= midIdx; i++) {
+//         //calculate leftBar position
+//         let leftBar = frame[midIdx - i];
+//         leftBar.xPos = midlineX - i*(barWidth + sortCollection.barSpacing);
+//         leftBar.yPos = height/2;
+//         leftBar.width = barWidth;
+//         //calculate rightBar position
+//         let rightBar = frame[midIdx + i];
+//         rightBar.xPos = midlineX + i*(barWidth + sortCollection.barSpacing);
+//         rightBar.yPos = height/2;
+//         rightBar.width = barWidth;
+//     }
 
-    return frame;
-}
+//     return frame;
+// }
 
-function reorderFrame(frame) {
-    let swap;
-    let n = frame.length-1;
-    do {
-        swap = false;
-        for (let i = 0; i < n; i++)
-        {
-            if (frame[i].xPos > frame[i+1].xPos){
-                let temp = frame[i];
-                frame[i] = frame[i+1];
-                frame[i+1] = temp;
-                swap = true;
-            }
-        }
-        n--;
-    } while (swap);
-}
+// function reorderFrame(frame) {
+//     let swap;
+//     let n = frame.length-1;
+//     do {
+//         swap = false;
+//         for (let i = 0; i < n; i++)
+//         {
+//             if (frame[i].xPos > frame[i+1].xPos){
+//                 let temp = frame[i];
+//                 frame[i] = frame[i+1];
+//                 frame[i+1] = temp;
+//                 swap = true;
+//             }
+//         }
+//         n--;
+//     } while (swap);
+// }
 
 
 
