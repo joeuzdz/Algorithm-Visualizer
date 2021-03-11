@@ -78,6 +78,11 @@ function playAlgorithm() {
             }
             break;
         case Algo.MERGESORT:
+            if (animationQueue.length == 0) {
+                sortCollection.mergeSort();
+            } else {
+                animationIsPaused = false;
+            }
             break;
         case Algo.QUICKSORT:
             break;
