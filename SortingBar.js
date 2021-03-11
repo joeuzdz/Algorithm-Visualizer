@@ -64,8 +64,11 @@ class SortingBar {
             // swapClone.color = color('#e5e500');
             // thisClone.color = color('#cccc00');
 
-            swapClone.color = color(225);
-            thisClone.color = color(200);
+            swapClone.color = color(200);
+            thisClone.color = color(220);
+
+            // swapClone.color = color(200);
+            // thisClone.color = color('red');
             
             
             newFrame.push(thisClone);

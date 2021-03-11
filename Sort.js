@@ -115,9 +115,35 @@ class Sort {
             n--;
         } while (swap);
         
-        for(let bar of this.items) {
-            bar.color = color('#990000');
+        // for(let bar of this.items) {
+        //     bar.color = color('#990000');
+        // }
+    }
+
+    insertionSort() {
+
+        let n = this.items.length;
+        for (let i = 1; i < n; i++) {
+            // Choosing the first element in our unsorted subarray
+            let current = this.items[i];
+            // The last element of our sorted subarray
+            let j = i-1; 
+            while ((j > -1) && (current.value < this.items[j].value)) {
+                
+                this.items[j+1].animateSwap(this.items[j]);
+
+                let temp = this.items[j];
+                this.items[j] = this.items[j+1];
+                this.items[j+1] = temp;
+
+                j--;
+            }
+            this.items[j+1] = current;
         }
+
+        // for(let bar of this.items) {
+        //     bar.color = color('#990000');
+        // }
     }
 
     //iterative
