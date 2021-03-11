@@ -12,9 +12,9 @@ let algoButtons = [];
 const algoButtonHeight = 30;
 //control buttons and their graphics
 let controlButtons = [];
-let playButton, playButtonEnGraphic, playButtonDisGraphic;
-let pauseButton, pauseButtonEnGraphic, pauseButtonDisGraphic;
-let resetButton, resetButtonEnGraphic, resetButtonDisGraphic;
+let playButton, playButtonGraphic, playButtonMOGraphic, playButtonDisGraphic;
+let pauseButtonGraphic, pauseButtonMOGraphic;
+let resetButton, resetButtonGraphic, resetButtonMOGraphic;
 
 let ControlType = Object.freeze({
                     PLAY: 1,
@@ -35,7 +35,9 @@ let Algo = Object.freeze({
                     JUMPSEARCH: 6, 
                     BINARYSEARCH: 7,
                     DIJKSTRAS: 8,
-                    ASTAR: 9
+                    ASTAR: 9,
+                    INSERTIONSORT: 10,
+                    SELECTIONSORT: 11,
                     })
 //MODE ENUM
 let Mode = Object.freeze({
@@ -89,12 +91,18 @@ function draw() {
         displayControlButtons();
     }
 
+    if (currentMode == Mode.SORT) {
+        updateNumBarsSlider();
+    }
+
     checkMousePointer();
 
-
     if (animationQueue.length != 0) { //then display animation queue frame by frame
-
-        for (let bar of animationQueue[animationIterator]) {
+        let nextFrame = animationQueue[animationIterator];
+        //IGNORING SWAPPING ANIMATION
+        //FIX
+        // repositionSortingFrame(nextFrame);
+        for (let bar of nextFrame) {
             bar.show();
         }
 
@@ -112,9 +120,9 @@ function draw() {
             if (numBarsSlider.value() != sortCollection.items.length) {
                 sortCollection.updateBars();
             }
-            sortCollection.show();
             sortCollection.resetBarPositions();
-            updateNumBarsSlider();
+            sortCollection.show();
+            
         }
 
     }
@@ -123,7 +131,7 @@ function draw() {
 
 //define the globals in setup()
 function defineGlobals() {
-    backgroundColor = color(150);
+    backgroundColor = color(180);
     font = 'monospace';
 
     panelWidth = 250;
@@ -137,32 +145,40 @@ function defineGlobals() {
 
 //create the algorithm buttons on the panel
 function setupAlgoButtons() {
-    let bubbleSortButton = new AlgoButton(200, Algo.BUBBLESORT);
-    let mergeSortButton = new AlgoButton(230, Algo.MERGESORT);
-    let quickSortButton = new AlgoButton(260, Algo.QUICKSORT);
+    let baseYPos = 200;
+    let spacing = 35;
+    let i = 0;
 
+    let bubbleSortButton = new AlgoButton(baseYPos + spacing*i++, Algo.BUBBLESORT);
+    let insertionSortButton = new AlgoButton(baseYPos + spacing*i++, Algo.INSERTIONSORT);
+    let selectionSortButton = new AlgoButton(baseYPos + spacing*i++, Algo.SELECTIONSORT);
+    
     algoButtons.push(bubbleSortButton);
-    algoButtons.push(mergeSortButton);
-    algoButtons.push(quickSortButton);
+    algoButtons.push(insertionSortButton);
+    algoButtons.push(selectionSortButton);
+
+
+    // let mergeSortButton = new AlgoButton(290, Algo.MERGESORT);
+    // let quickSortButton = new AlgoButton(320, Algo.QUICKSORT);
+    // algoButtons.push(mergeSortButton);
+    // algoButtons.push(quickSortButton);
 }
 
 function setupControlButtons() {
     playButton = new ControlButton(ControlType.PLAY, 70, 50, true);
-    pauseButton = new ControlButton(ControlType.PAUSE, 50, 50, false);
+    // pauseButton = new ControlButton(ControlType.PAUSE, 50, 50, false);
     resetButton = new ControlButton(ControlType.RESET, 50, 50, true);
 
     controlButtons.push(playButton);
-    controlButtons.push(pauseButton);
+    // controlButtons.push(pauseButton);
     controlButtons.push(resetButton);
 
 }
 
 function updateControlButtonPositions() {
-    playButton.xPos = midlineX;
+    playButton.xPos = midlineX - 30;
     playButton.yPos = height - 50;
-    pauseButton.xPos = midlineX - 65;
-    pauseButton.yPos = height - 50;
-    resetButton.xPos = midlineX + 65;
+    resetButton.xPos = midlineX + 35;
     resetButton.yPos = height - 50;
 }
 
@@ -216,8 +232,8 @@ function displayControlButtons() {
     stroke(100);
     strokeWeight(2);
     noStroke();
-    fill(130);
-    rect(midlineX, height - 50, 120, 40);
+    fill(150);
+    rect(midlineX, height - 50, 60, 45);
     pop();
     
     for (let button of controlButtons) {
@@ -296,5 +312,57 @@ function updateNumBarsSlider() {
     let yPos = height - 110;
     numBarsSlider.position(xPos, yPos);
 }
+
+// function repositionSortingFrame(frame) {
+//     reorderFrame(frame);
+//     let minPercentage = 0.4;
+//     let maxPercentage = 0.8;
+//     let screenPercentage = map(frame.length, numBarsSlider.elt.min, numBarsSlider.elt.max, minPercentage, maxPercentage);
+    
+//     let sortCollectionWidth = displayWidth * screenPercentage;
+//     sortCollectionWidth -= sortCollection.barSpacing * frame.length;
+//     let barWidth = sortCollectionWidth / frame.length;
+    
+//     let midIdx = floor(frame.length/2);
+//     let midBar = frame[midIdx];
+//     midBar.xPos = midlineX;
+
+//     midBar.yPos = height/2;
+//     midBar.width = barWidth;
+
+//     for (let i = 0; i <= midIdx; i++) {
+//         //calculate leftBar position
+//         let leftBar = frame[midIdx - i];
+//         leftBar.xPos = midlineX - i*(barWidth + sortCollection.barSpacing);
+//         leftBar.yPos = height/2;
+//         leftBar.width = barWidth;
+//         //calculate rightBar position
+//         let rightBar = frame[midIdx + i];
+//         rightBar.xPos = midlineX + i*(barWidth + sortCollection.barSpacing);
+//         rightBar.yPos = height/2;
+//         rightBar.width = barWidth;
+//     }
+
+//     return frame;
+// }
+
+// function reorderFrame(frame) {
+//     let swap;
+//     let n = frame.length-1;
+//     do {
+//         swap = false;
+//         for (let i = 0; i < n; i++)
+//         {
+//             if (frame[i].xPos > frame[i+1].xPos){
+//                 let temp = frame[i];
+//                 frame[i] = frame[i+1];
+//                 frame[i+1] = temp;
+//                 swap = true;
+//             }
+//         }
+//         n--;
+//     } while (swap);
+// }
+
 
 

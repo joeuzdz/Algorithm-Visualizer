@@ -1,13 +1,23 @@
 function createControlButtonGraphics() {
     
-    playButtonEnGraphic = createGraphics(70, 50);
-    playButtonEnGraphic.strokeWeight(2);
-    playButtonEnGraphic.stroke(100);
-    playButtonEnGraphic.fill(220);
-    playButtonEnGraphic.rect(1,1,68,48,30);
-    playButtonEnGraphic.fill(0);
-    playButtonEnGraphic.noStroke();
-    playButtonEnGraphic.triangle(27, 15, 27, 35, 47, 25);
+    playButtonGraphic = createGraphics(70, 50);
+    playButtonGraphic.strokeWeight(2);
+    playButtonGraphic.stroke(100);
+    playButtonGraphic.fill(220);
+    playButtonGraphic.rect(1,1,68,48,30);
+    playButtonGraphic.fill(0);
+    playButtonGraphic.noStroke();
+    playButtonGraphic.triangle(27, 15, 27, 35, 47, 25);
+
+    pauseButtonGraphic = createGraphics(70, 50);
+    pauseButtonGraphic.strokeWeight(2);
+    pauseButtonGraphic.stroke(100);
+    pauseButtonGraphic.fill(220);
+    pauseButtonGraphic.rect(1,1,68,48,30);
+    pauseButtonGraphic.fill(0);
+    pauseButtonGraphic.noStroke();
+    pauseButtonGraphic.rect(28, 15, 5, 20, 10);
+    pauseButtonGraphic.rect(37, 15, 5, 20, 10);
     
     playButtonDisGraphic = createGraphics(70, 50);
     playButtonDisGraphic.strokeWeight(2);
@@ -27,49 +37,59 @@ function createControlButtonGraphics() {
     playButtonMOGraphic.noStroke();
     playButtonMOGraphic.triangle(27, 15, 27, 35, 47, 25);
 
-    pauseButtonEnGraphic = createGraphics(50, 50);
-    pauseButtonEnGraphic.strokeWeight(2);
-    pauseButtonEnGraphic.stroke(100);
-    pauseButtonEnGraphic.fill(220);
-    pauseButtonEnGraphic.ellipse(25, 25, 45);
-    pauseButtonEnGraphic.fill(0);
-    pauseButtonEnGraphic.noStroke();
-    pauseButtonEnGraphic.rect(18, 15, 5, 20, 10);
-    pauseButtonEnGraphic.rect(27, 15, 5, 20, 10);
-
-    pauseButtonDisGraphic = createGraphics(50, 50);
-    pauseButtonDisGraphic.strokeWeight(2);
-    pauseButtonDisGraphic.stroke(130);
-    pauseButtonDisGraphic.fill(170);
-    pauseButtonDisGraphic.ellipse(25, 25, 45);
-    pauseButtonDisGraphic.fill(100);
-    pauseButtonDisGraphic.noStroke();
-    pauseButtonDisGraphic.rect(18, 15, 5, 20, 10);
-    pauseButtonDisGraphic.rect(27, 15, 5, 20, 10);
-
-    pauseButtonMOGraphic = createGraphics(50, 50);
+    pauseButtonMOGraphic = createGraphics(70, 50);
     pauseButtonMOGraphic.strokeWeight(2);
     pauseButtonMOGraphic.stroke(100);
     pauseButtonMOGraphic.fill(255);
-    pauseButtonMOGraphic.ellipse(25, 25, 45);
+    pauseButtonMOGraphic.rect(1,1,68,48,30);
     pauseButtonMOGraphic.fill(0);
     pauseButtonMOGraphic.noStroke();
-    pauseButtonMOGraphic.rect(18, 15, 5, 20, 10);
-    pauseButtonMOGraphic.rect(27, 15, 5, 20, 10);
+    pauseButtonMOGraphic.rect(28, 15, 5, 20, 10);
+    pauseButtonMOGraphic.rect(37, 15, 5, 20, 10);
+
+    // pauseButtonEnGraphic = createGraphics(50, 50);
+    // pauseButtonEnGraphic.strokeWeight(2);
+    // pauseButtonEnGraphic.stroke(100);
+    // pauseButtonEnGraphic.fill(220);
+    // pauseButtonEnGraphic.ellipse(25, 25, 45);
+    // pauseButtonEnGraphic.fill(0);
+    // pauseButtonEnGraphic.noStroke();
+    // pauseButtonEnGraphic.rect(18, 15, 5, 20, 10);
+    // pauseButtonEnGraphic.rect(27, 15, 5, 20, 10);
+
+    // pauseButtonDisGraphic = createGraphics(50, 50);
+    // pauseButtonDisGraphic.strokeWeight(2);
+    // pauseButtonDisGraphic.stroke(130);
+    // pauseButtonDisGraphic.fill(170);
+    // pauseButtonDisGraphic.ellipse(25, 25, 45);
+    // pauseButtonDisGraphic.fill(100);
+    // pauseButtonDisGraphic.noStroke();
+    // pauseButtonDisGraphic.rect(18, 15, 5, 20, 10);
+    // pauseButtonDisGraphic.rect(27, 15, 5, 20, 10);
+
+    // pauseButtonMOGraphic = createGraphics(50, 50);
+    // pauseButtonMOGraphic.strokeWeight(2);
+    // pauseButtonMOGraphic.stroke(100);
+    // pauseButtonMOGraphic.fill(255);
+    // pauseButtonMOGraphic.ellipse(25, 25, 45);
+    // pauseButtonMOGraphic.fill(0);
+    // pauseButtonMOGraphic.noStroke();
+    // pauseButtonMOGraphic.rect(18, 15, 5, 20, 10);
+    // pauseButtonMOGraphic.rect(27, 15, 5, 20, 10);
     
-    resetButtonEnGraphic = createGraphics(50, 50);
-    resetButtonEnGraphic.strokeWeight(2);
-    resetButtonEnGraphic.stroke(100);
-    resetButtonEnGraphic.fill(220);
-    resetButtonEnGraphic.ellipse(25, 25, 45);
-    resetButtonEnGraphic.noStroke();
-    resetButtonEnGraphic.fill(0);
-    resetButtonEnGraphic.ellipse(25, 25, 26);
-    resetButtonEnGraphic.fill(220);
-    resetButtonEnGraphic.ellipse(25, 25, 20);
-    resetButtonEnGraphic.rect(32,17,10,10);
-    resetButtonEnGraphic.fill(0);
-    resetButtonEnGraphic.triangle(27, 20, 36, 11, 36, 20);
+    resetButtonGraphic = createGraphics(50, 50);
+    resetButtonGraphic.strokeWeight(2);
+    resetButtonGraphic.stroke(100);
+    resetButtonGraphic.fill(220);
+    resetButtonGraphic.ellipse(25, 25, 45);
+    resetButtonGraphic.noStroke();
+    resetButtonGraphic.fill(0);
+    resetButtonGraphic.ellipse(25, 25, 26);
+    resetButtonGraphic.fill(220);
+    resetButtonGraphic.ellipse(25, 25, 20);
+    resetButtonGraphic.rect(32,17,10,10);
+    resetButtonGraphic.fill(0);
+    resetButtonGraphic.triangle(27, 20, 36, 11, 36, 20);
 
     resetButtonMOGraphic = createGraphics(50, 50);
     resetButtonMOGraphic.strokeWeight(2);

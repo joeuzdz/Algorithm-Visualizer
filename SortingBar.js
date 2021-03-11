@@ -13,7 +13,8 @@ class SortingBar {
         push();
         fill(this.color);
         noStroke();
-        rect(this.xPos, this.yPos, this.width, this.value, this.rounded);
+        rect(this.xPos, this.yPos, this.width, this.value * (height/2), this.rounded);
+        // rect(this.xPos, this.yPos, this.width, this.value * (height), this.rounded);
         pop();
     }
 
@@ -50,6 +51,7 @@ class SortingBar {
         } else {
             numFrames = floor(map(sortCollection.items.length, numBarsSliderMin, (numBarsSliderMax+numBarsSliderMin) / 2, 15, 1));
         }
+        // numFrames = 100;
         for (let i = 1; i <= numFrames; i++) {
             let newFrame = sortCollection.cloneArray(baseFrame);
             if (thisXPos < swapXPos) {
@@ -63,8 +65,11 @@ class SortingBar {
             // swapClone.color = color('#e5e500');
             // thisClone.color = color('#cccc00');
 
-            swapClone.color = color(225);
-            thisClone.color = color(200);
+            swapClone.color = color(200);
+            thisClone.color = color(220);
+
+            // swapClone.color = color(200);
+            // thisClone.color = color('red');
             
             
             newFrame.push(thisClone);
