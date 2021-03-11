@@ -131,10 +131,10 @@ function draw() {
 
 //define the globals in setup()
 function defineGlobals() {
-    backgroundColor = color(180);
+    backgroundColor = color('#24476c');
     font = 'monospace';
 
-    panelWidth = 250;
+    panelWidth = 220;
     updateDimensions();
     
     currentAlgo = Algo.DEFAULT;
@@ -146,7 +146,7 @@ function defineGlobals() {
 //create the algorithm buttons on the panel
 function setupAlgoButtons() {
     let baseYPos = 200;
-    let spacing = 35;
+    let spacing = algoButtonHeight;
     let i = 0;
 
     let bubbleSortButton = new AlgoButton(baseYPos + spacing*i++, Algo.BUBBLESORT);
@@ -176,9 +176,9 @@ function setupControlButtons() {
 }
 
 function updateControlButtonPositions() {
-    playButton.xPos = midlineX - 30;
+    playButton.xPos = midlineX - 27;
     playButton.yPos = height - 50;
-    resetButton.xPos = midlineX + 35;
+    resetButton.xPos = midlineX + 38;
     resetButton.yPos = height - 50;
 }
 
@@ -198,9 +198,9 @@ function displayPanel() {
 //displays border of panel
 function displayPanelBackground() {
     push();
-    fill(125);
+    fill('#1e3a59');
     stroke(50, 30);
-    strokeWeight(7);
+    strokeWeight(5);
     rectMode(CORNER)
     rect(0, 0, panelWidth, height);
     pop();
@@ -209,13 +209,16 @@ function displayPanelBackground() {
 //displays the title in the panel
 function displayTitle() {
     push();
-    fill(30);
-    noStroke();
     textAlign(CENTER, TOP);
-    textSize(40);
+    noStroke();
+    fill(220);
+    textSize(30);
     text('Algorithm', panelWidth/2, 15);
-    textSize(36);
-    text('Visualizer', panelWidth/2, 60);
+    textSize(28);
+    text('Visualizer', panelWidth/2, 50);
+    stroke(150);
+    line(35, 90, panelWidth - 35, 90);
+    line(40, 94, panelWidth - 40, 94);
     pop();
 }
 
@@ -229,11 +232,9 @@ function displayControlButtons() {
     updateControlButtonPositions();
     
     push();
-    stroke(100);
-    strokeWeight(2);
     noStroke();
-    fill(150);
-    rect(midlineX, height - 50, 60, 45);
+    fill(255, 110);
+    rect(midlineX, height - 50, 65, 45);
     pop();
     
     for (let button of controlButtons) {
@@ -244,6 +245,7 @@ function displayControlButtons() {
 //displays screen dimensions in lower right corner of screen
 function displayScreenDimensions() {
     push();
+    fill(200);
     textSize(16);
     let string = str(width) + ', ' + str(height);
     text(string, width - 100, height - 20);
@@ -291,8 +293,6 @@ function checkMousePointer() {
     }
 }
 
-
-
 //sorting functions
 function setupNumBarsSlider() {
     
@@ -304,13 +304,19 @@ function setupNumBarsSlider() {
     //display out of screen until a sorting function is called which will
     //  reposition it appropriately                           
     numBarsSlider.position(-100, -100);
-    numBarsSlider.style("width", "150px");
+    numBarsSlider.style("width", "100px");
 }
 
 function updateNumBarsSlider() {
     let xPos = midlineX - numBarsSlider.width/2;
     let yPos = height - 110;
     numBarsSlider.position(xPos, yPos);
+
+    push();
+    noStroke();
+    fill(255, 110);
+    rect(midlineX, height - 100, 125, 30, 20);
+    pop();
 }
 
 // function repositionSortingFrame(frame) {

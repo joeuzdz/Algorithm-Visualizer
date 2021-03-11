@@ -10,18 +10,21 @@ class AlgoButton {
     show() {
         push();
         rectMode(CORNER);
-        stroke(0);
-        fill(150);
-        if (this.rollover()) {
-            fill(170);
-        }
+        noStroke();
+        fill(200);
         if (this.isSelected) {
             fill(190);
+            fill(255, 150);
+            rect(2, this.yPos, panelWidth - 5, algoButtonHeight);
+            fill(10);
+        } else if (this.rollover()) {
+            fill(170);
+            fill(255, 110);
+            rect(2, this.yPos, panelWidth - 5, algoButtonHeight);
+            fill(10);
         }
-        rect(3, this.yPos, panelWidth - 8, algoButtonHeight, 5);
-        noStroke();
-        fill(30);
-        textSize(18); 
+        
+        
         let string;
         switch (this.type) {
             case Algo.BUBBLESORT:
@@ -43,7 +46,8 @@ class AlgoButton {
                 string = '???';
                 break;
         }
-        text(string, 40, this.yPos + 20);
+        textSize(18); 
+        text(string, 30, this.yPos + 20);
         pop();
     }
 
