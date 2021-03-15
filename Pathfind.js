@@ -21,6 +21,8 @@ class Pathfind {
             }
             this.createMaze();
         }
+        this.grid[0][floor(this.grid[0].length/2)].isStartNode = true;
+        this.grid[this.grid.length - 1][floor(this.grid[0].length/2)].isEndNode = true;
     }
 
     showGrid() {
@@ -46,6 +48,12 @@ class Pathfind {
         // let originX = ((width - pfWidth) / 2);
         let originY = (height - pfHeight) / 2;
         this.origin = createVector(originX, originY);
+
+        // push();
+        // noFill();
+        // stroke(180);
+        // rect(midlineX, height/2, pfWidth + 6, pfHeight + 6, 20);
+        // pop();
 
         for (let i = 0; i < this.grid.length; i++) {
             for (let j = 0; j < this.grid[0].length; j++) {

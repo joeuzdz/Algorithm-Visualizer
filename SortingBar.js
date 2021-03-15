@@ -1,5 +1,5 @@
 class SortingBar {
-    constructor(value,id=globalID++, x=0, y=0, width=0, c=color(200, 200)) {
+    constructor(value,id=globalID++, x=0, y=0, width=0, c=color(180)) {
         this.value = value;
         this.id = id;
         this.xPos = x;

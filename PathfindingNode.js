@@ -22,12 +22,22 @@ class PathfindingNode {
             fill(30);
             strokeWeight(0.5);
             stroke(30);
+            // fill(180);
+            // stroke(180);
+        } else if (this.isStartNode) {
+            fill('green');
+            noStroke();
+        } else if (this.isEndNode) {
+            fill('red');
+            noStroke();
         } else {
             fill(220);
             let sWeight = map(slider.value(), slider.elt.min, slider.elt.max, 1, 0.5); 
             strokeWeight(sWeight);
             stroke('#add8e6');
             stroke(220);
+            // noStroke();
+            // noFill();
         }
 
         //round 4 corners
