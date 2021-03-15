@@ -52,7 +52,7 @@ class ControlButton {
             if (this.isPaused) {
                 playAlgorithm();
                 this.isPaused = false;
-                numBarsSlider.elt.setAttribute('disabled', 'true');
+                slider.elt.setAttribute('disabled', 'true');
             } else {
                 animationIsPaused = true;
                 this.isPaused = true;
@@ -61,6 +61,8 @@ class ControlButton {
         } else if (this.type == ControlType.RESET) {
             if (currentMode == Mode.SORT) {
                 setupSort();
+            } else if (currentMode == Mode.PATHFIND) {
+                setupPathfind();
             }
         }
     }
@@ -91,14 +93,11 @@ function playAlgorithm() {
                 animationIsPaused = false;
             }
             break;
-        case Algo.MERGESORT:
+        case Algo.DIJKSTRAS:
             if (animationQueue.length == 0) {
-                sortCollection.mergeSort();
+                pathfind.dijkstras();
             } else {
                 animationIsPaused = false;
             }
-            break;
-        case Algo.QUICKSORT:
-            break;
     }
 }
