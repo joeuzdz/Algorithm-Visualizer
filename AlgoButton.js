@@ -36,11 +36,8 @@ class AlgoButton {
             case Algo.SELECTIONSORT:
                 string = 'Selection Sort';
                 break;
-            case Algo.MERGESORT:
-                string = 'Merge Sort';
-                break;
-            case Algo.QUICKSORT:
-                string = 'Quick Sort';
+            case Algo.DIJKSTRAS:
+                string = 'Dijkstras';
                 break;
             default:
                 string = '???';
@@ -81,14 +78,10 @@ class AlgoButton {
                 setupSort();
                 console.log('selection sort');
                 break;
-            case Algo.MERGESORT:
-                currentAlgo = Algo.MERGESORT;
-                setupSort();
-                console.log('mergesort');
-                break;
-            case Algo.QUICKSORT:
-                // setupSort();
-                console.log('quicksort');
+            case Algo.DIJKSTRAS:
+                currentAlgo = Algo.DIJKSTRAS;
+                setupPathfind();
+                console.log('dijkstras');
                 break;
         }
         
@@ -100,12 +93,24 @@ function setupSort() {
     resetAnimationQueue();
     playButton.isEnabled = true;
     playButton.isPaused = true;
-    numBarsSlider.removeAttribute('disabled');
+    slider.removeAttribute('disabled');
     sortCollection = new Sort();
     sortCollection.updateBars();
     
     //call update which will reposition slider appropriately
-    updateNumBarsSlider();
+    updateSlider();
+}
+
+function setupPathfind() {
+    currentMode = Mode.PATHFIND;
+    resetAnimationQueue();
+    playButton.isEnabled = true;
+    playButton.isPaused = true;
+    slider.removeAttribute('disabled');
+    pathfind = new Pathfind();
+    pathfind.updateGrid();
+
+    updateSlider();
 }
 
 function resetAnimationQueue() {

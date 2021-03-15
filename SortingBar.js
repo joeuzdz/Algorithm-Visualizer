@@ -46,10 +46,10 @@ class SortingBar {
         barToSwap.xPos = thisXPos;
 
         let numFrames;
-        if (sortCollection.items.length > (numBarsSliderMax+numBarsSliderMin) / 2) {
+        if (sortCollection.items.length > (sliderMax+sliderMin) / 2) {
             numFrames = 1;
         } else {
-            numFrames = floor(map(sortCollection.items.length, numBarsSliderMin, (numBarsSliderMax+numBarsSliderMin) / 2, 15, 1));
+            numFrames = floor(map(sortCollection.items.length, sliderMin, (sliderMax+sliderMin) / 2, 15, 1));
         }
         // numFrames = 100;
         for (let i = 1; i <= numFrames; i++) {
