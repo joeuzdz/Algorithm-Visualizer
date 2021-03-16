@@ -89,7 +89,7 @@ class AlgoButton {
 }
 
 function setupSort() {
-    currentMode = Mode.SORT;
+    
     resetAnimationQueue();
     playButton.isEnabled = true;
     playButton.isPaused = true;
@@ -97,12 +97,19 @@ function setupSort() {
     sortCollection = new Sort();
     sortCollection.updateBars();
     
-    //call update which will reposition slider appropriately
     updateSlider();
+    if (currentMode != Mode.SORT) {
+        let sliderValue = slider.value();
+        let newValue = map(sliderValue, sliderMin, 59, sliderMin, sliderMax);
+        slider.elt.step = 2;
+        slider.elt.max = sliderMax;
+        slider.elt.value = newValue;
+    }
+    currentMode = Mode.SORT;
 }
 
 function setupPathfind() {
-    currentMode = Mode.PATHFIND;
+    
     resetAnimationQueue();
     playButton.isEnabled = true;
     playButton.isPaused = true;
@@ -111,6 +118,14 @@ function setupPathfind() {
     pathfind.updateGrid();
 
     updateSlider();
+    if (currentMode != Mode.PATHFIND) {
+        let sliderValue = slider.value();
+        let newValue = map(sliderValue, sliderMin, sliderMax, sliderMin, 59);
+        slider.elt.step = 4;
+        slider.elt.max = 59;
+        slider.elt.value = newValue;
+    }
+    currentMode = Mode.PATHFIND;
 }
 
 function resetAnimationQueue() {

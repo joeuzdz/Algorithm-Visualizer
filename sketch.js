@@ -57,13 +57,16 @@ let animationIsPaused = false;
 //collection globals 
 let sortCollection;
 let slider;
-const sliderMin           = 11;
+const sliderMin           = 19;
 const sliderMax           = 101;
-const sliderDefaultValue  = 55;
+const sliderDefaultValue  = 59;
 const sliderStepInterval  = 2;
 let globalID = 0;
 
 let pathfind;
+
+let isLoading = false;
+let triggerCounter = 0;
 
 //RUNS ONCE  
 function setup() {
@@ -84,7 +87,7 @@ function draw() {
     resizeCanvas(windowWidth, windowHeight);
     updateDimensions();
     background(backgroundColor);
-    //displayGridLines();
+    // displayGridLines();
     
     displayPanel();
     displayScreenDimensions();
@@ -102,9 +105,18 @@ function draw() {
         //IGNORING SWAPPING ANIMATION
         //FIX
         // repositionSortingFrame(nextFrame);
-        for (let bar of nextFrame) {
-            bar.show();
+       
+        if (currentMode == Mode.SORT) {
+            for (let bar of nextFrame) {
+                bar.show();
+            }
+        } else if (currentMode == Mode.PATHFIND) {
+            for (let node of nextFrame) {
+                node.show(pathfind.origin.x, pathfind.origin.y, pathfind.nodeSize);
+            }
+            // console.log(nextFrame);
         }
+        
 
         if (!animationIsPaused) {
             animationIterator++;
@@ -129,6 +141,19 @@ function draw() {
         }
         
 
+    }
+
+    if (isLoading) {
+        if (currentMode == Mode.PATHFIND && animationQueue.length == 0) {
+            fill(200);
+            textSize(16);
+            text('Finding a path...', panelWidth + 20, height - 20);
+        }
+        triggerCounter++;
+        if (triggerCounter > 1) {
+            playAlgorithm();
+            playButton.isEnabled = true;
+        }
     }
     
 }

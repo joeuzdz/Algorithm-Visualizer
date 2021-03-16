@@ -8,11 +8,13 @@ class Pathfind {
     }
 
     updateGrid() {
-        if (this.grid.length != slider.value() - 1) {
+        if (this.grid.length != slider.value() - 2) {
             this.grid = [];
-            for (let i = 0; i < slider.value() - 1; i++) {
+            for (let i = 0; i < slider.value() - 2; i++) {
                 let newCol = [];
-                for (let j = 0; j < slider.value() / 2 - 1; j++) {
+                let colLength = floor(slider.value() / 2);
+                if (colLength % 2 == 0) colLength++;
+                for (let j = 0; j < colLength; j++) {
                     let newNode = new PathfindingNode(i, j);
                     // if (random() < 0.5) newNode.isWall = true;
                     newCol.push(newNode);   
@@ -23,6 +25,7 @@ class Pathfind {
         }
         this.grid[0][floor(this.grid[0].length/2)].isStartNode = true;
         this.grid[this.grid.length - 1][floor(this.grid[0].length/2)].isEndNode = true;
+
     }
 
     showGrid() {
@@ -120,6 +123,104 @@ class Pathfind {
     }
 
     dijkstras() {
+        isLoading = true;
+        this.setCellNeighbors();
+        
+        let unvisited = [];
+        let visited = [];
+        let currentNode, testNode, newDist;
+        for (let i = 0; i < this.grid.length; i++) {
+            for (let j = 0; j < this.grid[0].length; j++) {
+                unvisited.push(this.grid[i][j]);
+                if (this.grid[i][j].isStartNode) {
+                    currentNode = this.grid[i][j];
+                }
+            }
+        }
+        currentNode.dk_tentDist = 0;
+        let nextFrame;
+
+        let counter = 0;
+        while (!currentNode.isEndNode) {
+            nextFrame = [...this.oneDGrid()];
+
+            for (let i = 0; i < currentNode.neighbors.length; i++) {
+                testNode = currentNode.neighbors[i];
+                if (unvisited.includes(testNode)) {
+                    newDist = currentNode.dk_tentDist + 1;
+                    if (newDist < testNode.dk_tentDist) {
+                        testNode.dk_tentDist = newDist;
+                        testNode.dk_path = [];
+                        arrayCopy(currentNode.dk_path, testNode.dk_path);
+                        testNode.dk_path.push(testNode);
+                    }
+                }
+                nextFrame.push(testNode.clone());
+            }
+            visited.push(currentNode);
+            let idx = unvisited.indexOf(currentNode);
+            unvisited.splice(idx, 1);
+            let low = Infinity;
+            let savedIdx;
+            for (let i = 0; i < unvisited.length; i++) {
+                if (unvisited[i].dk_tentDist <= low) {
+                    low = unvisited[i].dk_tentDist;
+                    savedIdx = i;
+                }
+            }
+            currentNode = unvisited[savedIdx];
+            currentNode.hasBeenSearched = true;
+            
+            let countTo = floor(map(slider.value(), slider.elt.min, slider.elt.max, 1, 5));
+            if (counter % countTo == 0) {
+                let numFrames = 1;
+                for (let i = 0; i < numFrames; i++) {
+                    animationQueue.push(nextFrame);
+                }
+            }
+            counter++;
+
+            if (currentNode.isEndNode) {
+                animationQueue.push(nextFrame);
+            }
+        }
+
+        for (let i = 0; i < currentNode.dk_path.length; i++) {
+            nextFrame = [...this.oneDGrid()];
+            currentNode.dk_path[i].isFinalPath = true;
+            nextFrame.push(currentNode.dk_path[i]);
+            animationQueue.push(nextFrame);
+        }
         
     }
+
+    setCellNeighbors() {
+        for (let i = 0; i < this.grid.length; i++) {
+            for (let j = 0; j < this.grid[0].length; j++) {
+                if (i != 0 && !this.grid[i - 1][j].isWall) {
+                    this.grid[i][j].neighbors.push(this.grid[i - 1][j]);
+                }
+                if (i != this.grid.length - 1 && !this.grid[i + 1][j].isWall) {
+                    this.grid[i][j].neighbors.push(this.grid[i + 1][j]);
+                }
+                if (j != 0 && !this.grid[i][j - 1].isWall) {
+                    this.grid[i][j].neighbors.push(this.grid[i][j - 1]);
+                }
+                if (j != this.grid[0].length - 1 && !this.grid[i][j + 1].isWall) {
+                    this.grid[i][j].neighbors.push(this.grid[i][j + 1]);
+                }
+            }
+        }
+    }
+
+    oneDGrid() {
+        let ret1DArr = [];
+        for (let i = 0; i < this.grid.length; i++) {
+            for (let j = 0; j < this.grid[0].length; j++) {
+                ret1DArr.push(this.grid[i][j].clone());
+            }
+        }
+        return ret1DArr;
+    }
 }
+

@@ -12,7 +12,11 @@ class ControlButton {
     show() {
         if (this.type == ControlType.PLAY) {
             if (!this.isEnabled) {
-                image(playButtonDisGraphic, this.xPos, this.yPos);
+                if (this.isPaused) {
+                    image(playButtonDisGraphic, this.xPos, this.yPos);
+                } else {
+                    image(pauseButtonDisGraphic, this.xPos, this.yPos);
+                }
             } else {
                 if (this.isPaused) {
                     if (this.rollover()) {
@@ -50,7 +54,8 @@ class ControlButton {
         if (this.type == ControlType.PLAY) {
             
             if (this.isPaused) {
-                playAlgorithm();
+                triggerAlgorithm();
+                // playAlgorithm();
                 this.isPaused = false;
                 slider.elt.setAttribute('disabled', 'true');
             } else {
@@ -70,7 +75,16 @@ class ControlButton {
 
 }
 
+function triggerAlgorithm() {
+    isLoading = true;
+    triggerCounter = 0;
+    if (currentMode == Mode.PATHFIND) {
+        playButton.isEnabled = false;
+    }
+}
+
 function playAlgorithm() {
+    isLoading = false;
     switch (currentAlgo) {
         case Algo.BUBBLESORT:
             if (animationQueue.length == 0) {
