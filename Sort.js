@@ -24,8 +24,8 @@ class Sort {
         }
 
         //add one bar to beginning and end of array until this.items.length == value
-        if (this.items.length < numBarsSlider.value()) {
-            let toAdd = numBarsSlider.value() - this.items.length;
+        if (this.items.length < slider.value()) {
+            let toAdd = slider.value() - this.items.length;
             for (let i = 0; i < floor(toAdd/2); i++) {
                 //add new bar to the end of array
                 // let barValue = random(randMinValue, randMaxValue);
@@ -40,8 +40,8 @@ class Sort {
             }
 
         //splice bars from end of array so length is equal to slider value
-        } else if (this.items.length > numBarsSlider.value()) {
-            this.items.splice(numBarsSlider.value(), this.items.length - numBarsSlider.value());
+        } else if (this.items.length > slider.value()) {
+            this.items.splice(slider.value(), this.items.length - slider.value());
         }
     }
 
@@ -49,7 +49,7 @@ class Sort {
     resetBarPositions() {
         let minPercentage = 0.4;
         let maxPercentage = 0.8;
-        let screenPercentage = map(this.items.length, numBarsSlider.elt.min, numBarsSlider.elt.max, minPercentage, maxPercentage);
+        let screenPercentage = map(this.items.length, slider.elt.min, slider.elt.max, minPercentage, maxPercentage);
         // screenPercentage = 1;
         let sortCollectionWidth = displayWidth * screenPercentage;
         sortCollectionWidth -= this.barSpacing * this.items.length;

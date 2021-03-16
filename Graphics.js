@@ -28,6 +28,16 @@ function createControlButtonGraphics() {
     playButtonDisGraphic.noStroke();
     playButtonDisGraphic.triangle(27, 15, 27, 35, 47, 25);
 
+    pauseButtonDisGraphic = createGraphics(70, 50);
+    pauseButtonDisGraphic.strokeWeight(2);
+    pauseButtonDisGraphic.stroke(130);
+    pauseButtonDisGraphic.fill(170);
+    pauseButtonDisGraphic.rect(1,1,68,48,30);
+    pauseButtonDisGraphic.fill(100);
+    pauseButtonDisGraphic.noStroke();
+    pauseButtonDisGraphic.rect(28, 15, 5, 20, 10);
+    pauseButtonDisGraphic.rect(37, 15, 5, 20, 10);
+
     playButtonMOGraphic = createGraphics(70, 50);
     playButtonMOGraphic.strokeWeight(2);
     playButtonMOGraphic.stroke(100);

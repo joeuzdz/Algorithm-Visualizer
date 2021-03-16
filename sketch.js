@@ -56,12 +56,17 @@ let animationIsPaused = false;
 
 //collection globals 
 let sortCollection;
-let numBarsSlider;
-const numBarsSliderMin           = 11;
-const numBarsSliderMax           = 101;
-const numBarsSliderDefaultValue  = 55;
-const numBarsSliderStepInterval  = 2;
+let slider;
+const sliderMin           = 19;
+const sliderMax           = 101;
+const sliderDefaultValue  = 59;
+const sliderStepInterval  = 2;
 let globalID = 0;
+
+let pathfind;
+
+let isLoading = false;
+let triggerCounter = 0;
 
 //RUNS ONCE  
 function setup() {
@@ -73,7 +78,7 @@ function setup() {
     textFont(font);
     rectMode(CENTER);
     imageMode(CENTER);
-    setupNumBarsSlider();
+    setupSlider();
     
 }
 
@@ -82,18 +87,16 @@ function draw() {
     resizeCanvas(windowWidth, windowHeight);
     updateDimensions();
     background(backgroundColor);
-    //displayGridLines();
+    // displayGridLines();
     
     displayPanel();
     displayScreenDimensions();
 
     if (currentMode != Mode.DEFAULT) {
         displayControlButtons();
+        updateSlider();
     }
 
-    if (currentMode == Mode.SORT) {
-        updateNumBarsSlider();
-    }
 
     checkMousePointer();
 
@@ -102,9 +105,18 @@ function draw() {
         //IGNORING SWAPPING ANIMATION
         //FIX
         // repositionSortingFrame(nextFrame);
-        for (let bar of nextFrame) {
-            bar.show();
+       
+        if (currentMode == Mode.SORT) {
+            for (let bar of nextFrame) {
+                bar.show();
+            }
+        } else if (currentMode == Mode.PATHFIND) {
+            for (let node of nextFrame) {
+                node.show(pathfind.origin.x, pathfind.origin.y, pathfind.nodeSize);
+            }
+            // console.log(nextFrame);
         }
+        
 
         if (!animationIsPaused) {
             animationIterator++;
@@ -117,14 +129,31 @@ function draw() {
     } else { //check currentMode to see what to display 
 
         if (currentMode == Mode.SORT) {
-            if (numBarsSlider.value() != sortCollection.items.length) {
+            if (slider.value() != sortCollection.items.length) {
                 sortCollection.updateBars();
             }
             sortCollection.resetBarPositions();
             sortCollection.show();
             
+        } else if (currentMode == Mode.PATHFIND) {
+            pathfind.updateGrid();
+            pathfind.showGrid();
         }
+        
 
+    }
+
+    if (isLoading) {
+        if (currentMode == Mode.PATHFIND && animationQueue.length == 0) {
+            fill(200);
+            textSize(16);
+            text('Finding a path...', panelWidth + 20, height - 20);
+        }
+        triggerCounter++;
+        if (triggerCounter > 1) {
+            playAlgorithm();
+            playButton.isEnabled = true;
+        }
     }
     
 }
@@ -140,7 +169,7 @@ function defineGlobals() {
     currentAlgo = Algo.DEFAULT;
     currentMode = Mode.DEFAULT;
 
-    sortCollection = new Sort();
+    // sortCollection = new Sort();
 }
 
 //create the algorithm buttons on the panel
@@ -153,15 +182,14 @@ function setupAlgoButtons() {
     let insertionSortButton = new AlgoButton(baseYPos + spacing*i++, Algo.INSERTIONSORT);
     let selectionSortButton = new AlgoButton(baseYPos + spacing*i++, Algo.SELECTIONSORT);
     
+    i++; //spacing
+    let dijkstrasButton = new AlgoButton(baseYPos + spacing*i++, Algo.DIJKSTRAS);
+
+
     algoButtons.push(bubbleSortButton);
     algoButtons.push(insertionSortButton);
     algoButtons.push(selectionSortButton);
-
-
-    // let mergeSortButton = new AlgoButton(290, Algo.MERGESORT);
-    // let quickSortButton = new AlgoButton(320, Algo.QUICKSORT);
-    // algoButtons.push(mergeSortButton);
-    // algoButtons.push(quickSortButton);
+    algoButtons.push(dijkstrasButton);
 }
 
 function setupControlButtons() {
@@ -294,23 +322,23 @@ function checkMousePointer() {
 }
 
 //sorting functions
-function setupNumBarsSlider() {
+function setupSlider() {
     
-    numBarsSlider = createSlider(numBarsSliderMin, 
-                                    numBarsSliderMax, 
-                                    numBarsSliderDefaultValue, 
-                                    numBarsSliderStepInterval
+    slider = createSlider(sliderMin, 
+                                    sliderMax, 
+                                    sliderDefaultValue, 
+                                    sliderStepInterval
                                 );
     //display out of screen until a sorting function is called which will
     //  reposition it appropriately                           
-    numBarsSlider.position(-100, -100);
-    numBarsSlider.style("width", "100px");
+    slider.position(-100, -100);
+    slider.style("width", "100px");
 }
 
-function updateNumBarsSlider() {
-    let xPos = midlineX - numBarsSlider.width/2;
+function updateSlider() {
+    let xPos = midlineX - slider.width/2;
     let yPos = height - 110;
-    numBarsSlider.position(xPos, yPos);
+    slider.position(xPos, yPos);
 
     push();
     noStroke();

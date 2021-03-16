@@ -36,11 +36,8 @@ class AlgoButton {
             case Algo.SELECTIONSORT:
                 string = 'Selection Sort';
                 break;
-            case Algo.MERGESORT:
-                string = 'Merge Sort';
-                break;
-            case Algo.QUICKSORT:
-                string = 'Quick Sort';
+            case Algo.DIJKSTRAS:
+                string = 'Dijkstras';
                 break;
             default:
                 string = '???';
@@ -81,14 +78,10 @@ class AlgoButton {
                 setupSort();
                 console.log('selection sort');
                 break;
-            case Algo.MERGESORT:
-                currentAlgo = Algo.MERGESORT;
-                setupSort();
-                console.log('mergesort');
-                break;
-            case Algo.QUICKSORT:
-                // setupSort();
-                console.log('quicksort');
+            case Algo.DIJKSTRAS:
+                currentAlgo = Algo.DIJKSTRAS;
+                setupPathfind();
+                console.log('dijkstras');
                 break;
         }
         
@@ -96,16 +89,43 @@ class AlgoButton {
 }
 
 function setupSort() {
-    currentMode = Mode.SORT;
+    
     resetAnimationQueue();
     playButton.isEnabled = true;
     playButton.isPaused = true;
-    numBarsSlider.removeAttribute('disabled');
+    slider.removeAttribute('disabled');
     sortCollection = new Sort();
     sortCollection.updateBars();
     
-    //call update which will reposition slider appropriately
-    updateNumBarsSlider();
+    updateSlider();
+    if (currentMode != Mode.SORT) {
+        let sliderValue = slider.value();
+        let newValue = map(sliderValue, sliderMin, 59, sliderMin, sliderMax);
+        slider.elt.step = 2;
+        slider.elt.max = sliderMax;
+        slider.elt.value = newValue;
+    }
+    currentMode = Mode.SORT;
+}
+
+function setupPathfind() {
+    
+    resetAnimationQueue();
+    playButton.isEnabled = true;
+    playButton.isPaused = true;
+    slider.removeAttribute('disabled');
+    pathfind = new Pathfind();
+    pathfind.updateGrid();
+
+    updateSlider();
+    if (currentMode != Mode.PATHFIND) {
+        let sliderValue = slider.value();
+        let newValue = map(sliderValue, sliderMin, sliderMax, sliderMin, 59);
+        slider.elt.step = 4;
+        slider.elt.max = 59;
+        slider.elt.value = newValue;
+    }
+    currentMode = Mode.PATHFIND;
 }
 
 function resetAnimationQueue() {

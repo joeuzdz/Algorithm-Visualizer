@@ -12,7 +12,11 @@ class ControlButton {
     show() {
         if (this.type == ControlType.PLAY) {
             if (!this.isEnabled) {
-                image(playButtonDisGraphic, this.xPos, this.yPos);
+                if (this.isPaused) {
+                    image(playButtonDisGraphic, this.xPos, this.yPos);
+                } else {
+                    image(pauseButtonDisGraphic, this.xPos, this.yPos);
+                }
             } else {
                 if (this.isPaused) {
                     if (this.rollover()) {
@@ -50,9 +54,10 @@ class ControlButton {
         if (this.type == ControlType.PLAY) {
             
             if (this.isPaused) {
-                playAlgorithm();
+                triggerAlgorithm();
+                // playAlgorithm();
                 this.isPaused = false;
-                numBarsSlider.elt.setAttribute('disabled', 'true');
+                slider.elt.setAttribute('disabled', 'true');
             } else {
                 animationIsPaused = true;
                 this.isPaused = true;
@@ -61,6 +66,8 @@ class ControlButton {
         } else if (this.type == ControlType.RESET) {
             if (currentMode == Mode.SORT) {
                 setupSort();
+            } else if (currentMode == Mode.PATHFIND) {
+                setupPathfind();
             }
         }
     }
@@ -68,7 +75,16 @@ class ControlButton {
 
 }
 
+function triggerAlgorithm() {
+    isLoading = true;
+    triggerCounter = 0;
+    if (currentMode == Mode.PATHFIND) {
+        playButton.isEnabled = false;
+    }
+}
+
 function playAlgorithm() {
+    isLoading = false;
     switch (currentAlgo) {
         case Algo.BUBBLESORT:
             if (animationQueue.length == 0) {
@@ -91,14 +107,11 @@ function playAlgorithm() {
                 animationIsPaused = false;
             }
             break;
-        case Algo.MERGESORT:
+        case Algo.DIJKSTRAS:
             if (animationQueue.length == 0) {
-                sortCollection.mergeSort();
+                pathfind.dijkstras();
             } else {
                 animationIsPaused = false;
             }
-            break;
-        case Algo.QUICKSORT:
-            break;
     }
 }
