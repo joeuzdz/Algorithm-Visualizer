@@ -114,7 +114,6 @@ function draw() {
             for (let node of nextFrame) {
                 node.show(pathfind.origin.x, pathfind.origin.y, pathfind.nodeSize);
             }
-            // console.log(nextFrame);
         }
         
 
@@ -151,7 +150,9 @@ function draw() {
         }
         triggerCounter++;
         if (triggerCounter > 1) {
+            console.log('what');
             playAlgorithm();
+            isLoading = false;
             playButton.isEnabled = true;
         }
     }
@@ -184,12 +185,13 @@ function setupAlgoButtons() {
     
     i++; //spacing
     let dijkstrasButton = new AlgoButton(baseYPos + spacing*i++, Algo.DIJKSTRAS);
-
+    let aStarButton = new AlgoButton(baseYPos + spacing*i++, Algo.ASTAR);
 
     algoButtons.push(bubbleSortButton);
     algoButtons.push(insertionSortButton);
     algoButtons.push(selectionSortButton);
     algoButtons.push(dijkstrasButton);
+    algoButtons.push(aStarButton);
 }
 
 function setupControlButtons() {

@@ -13,6 +13,11 @@ class PathfindingNode {
         //dijkstras helper variables
         this.dk_tentDist = Infinity;
         this.dk_path = [];
+        //astar helper variables
+        this.as_f;
+        this.as_g;
+        this.as_h;
+        this.as_parent;
     }
 
     show(originX, originY, nodeSize) {
