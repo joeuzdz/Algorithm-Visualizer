@@ -5,7 +5,8 @@ let font;
 let panelWidth;
 let displayWidth;
 let midlineX;
-//const minScreenHeight = 900;
+const minScreenWidth = 500;
+const minScreenHeight = 500;
 
 //button globals
 let algoButtons = [];
@@ -70,7 +71,7 @@ let triggerCounter = 0;
 
 //RUNS ONCE  
 function setup() {
-    createCanvas(windowWidth, windowHeight);
+    createCanvas(max(windowWidth,minScreenWidth), max(windowHeight,minScreenHeight));
     defineGlobals();
     setupAlgoButtons();
     createControlButtonGraphics();
@@ -84,7 +85,7 @@ function setup() {
 
 //RUNS REPEATEDLY
 function draw() {
-    resizeCanvas(windowWidth, windowHeight);
+    resizeCanvas(max(windowWidth,minScreenWidth), max(windowHeight,minScreenHeight));
     updateDimensions();
     background(backgroundColor);
     // displayGridLines();
@@ -175,7 +176,7 @@ function defineGlobals() {
 
 //create the algorithm buttons on the panel
 function setupAlgoButtons() {
-    let baseYPos = 200;
+    let baseYPos = 150;
     let spacing = algoButtonHeight;
     let i = 0;
 
