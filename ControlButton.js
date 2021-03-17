@@ -39,6 +39,18 @@ class ControlButton {
             } else {
                 image(resetButtonGraphic, this.xPos, this.yPos);
             }
+
+        } else if (this.type == ControlType.MAZE && currentMode == Mode.PATHFIND) {
+            if (this.isEnabled) {
+                if (this.rollover()) {
+                    image(mazeButtonMOGraphic, this.xPos, this.yPos);
+                } else {
+                    image(mazeButtonGraphic, this.xPos, this.yPos);
+                }
+            } else {
+                image(mazeButtonDisGraphic, this.xPos, this.yPos);
+            }
+            
         }
     }
 
@@ -52,7 +64,8 @@ class ControlButton {
 
     clicked() {
         if (this.type == ControlType.PLAY) {
-            
+            canDraw = false;
+            mazeButton.isEnabled = false;
             if (this.isPaused) {
                 triggerAlgorithm();
                 // playAlgorithm();
@@ -69,6 +82,9 @@ class ControlButton {
             } else if (currentMode == Mode.PATHFIND) {
                 setupPathfind();
             }
+
+        } else if (this.type == ControlType.MAZE) {
+            pathfind.createMaze();
         }
     }
 

@@ -56,36 +56,6 @@ function createControlButtonGraphics() {
     pauseButtonMOGraphic.noStroke();
     pauseButtonMOGraphic.rect(28, 15, 5, 20, 10);
     pauseButtonMOGraphic.rect(37, 15, 5, 20, 10);
-
-    // pauseButtonEnGraphic = createGraphics(50, 50);
-    // pauseButtonEnGraphic.strokeWeight(2);
-    // pauseButtonEnGraphic.stroke(100);
-    // pauseButtonEnGraphic.fill(220);
-    // pauseButtonEnGraphic.ellipse(25, 25, 45);
-    // pauseButtonEnGraphic.fill(0);
-    // pauseButtonEnGraphic.noStroke();
-    // pauseButtonEnGraphic.rect(18, 15, 5, 20, 10);
-    // pauseButtonEnGraphic.rect(27, 15, 5, 20, 10);
-
-    // pauseButtonDisGraphic = createGraphics(50, 50);
-    // pauseButtonDisGraphic.strokeWeight(2);
-    // pauseButtonDisGraphic.stroke(130);
-    // pauseButtonDisGraphic.fill(170);
-    // pauseButtonDisGraphic.ellipse(25, 25, 45);
-    // pauseButtonDisGraphic.fill(100);
-    // pauseButtonDisGraphic.noStroke();
-    // pauseButtonDisGraphic.rect(18, 15, 5, 20, 10);
-    // pauseButtonDisGraphic.rect(27, 15, 5, 20, 10);
-
-    // pauseButtonMOGraphic = createGraphics(50, 50);
-    // pauseButtonMOGraphic.strokeWeight(2);
-    // pauseButtonMOGraphic.stroke(100);
-    // pauseButtonMOGraphic.fill(255);
-    // pauseButtonMOGraphic.ellipse(25, 25, 45);
-    // pauseButtonMOGraphic.fill(0);
-    // pauseButtonMOGraphic.noStroke();
-    // pauseButtonMOGraphic.rect(18, 15, 5, 20, 10);
-    // pauseButtonMOGraphic.rect(27, 15, 5, 20, 10);
     
     resetButtonGraphic = createGraphics(50, 50);
     resetButtonGraphic.strokeWeight(2);
@@ -114,4 +84,27 @@ function createControlButtonGraphics() {
     resetButtonMOGraphic.rect(32,17,10,10);
     resetButtonMOGraphic.fill(0);
     resetButtonMOGraphic.triangle(27, 20, 36, 11, 36, 20);
+
+    mazeButtonGraphic = createGraphics(50, 50);
+    mazeButtonGraphic.strokeWeight(2);
+    mazeButtonGraphic.stroke(100);
+    mazeButtonGraphic.fill(220);
+    mazeButtonGraphic.ellipse(25, 25, 45);
+    mazeButtonGraphic.noStroke();
+    mazeButtonGraphic.fill(0);
+    // mazeButtonGraphic.image(mazeImage, 0, 0, 10, 10);
+    // mazeButtonGraphic.ellipse(0, 0, 10);
+
+
+    mazeButtonDisGraphic = createGraphics(50, 50);
+    mazeButtonDisGraphic.strokeWeight(2);
+    mazeButtonDisGraphic.stroke(130);
+    mazeButtonDisGraphic.fill(170);
+    mazeButtonDisGraphic.ellipse(25, 25, 45);
+
+    mazeButtonMOGraphic = createGraphics(50, 50);
+    mazeButtonMOGraphic.strokeWeight(2);
+    mazeButtonMOGraphic.stroke(100);
+    mazeButtonMOGraphic.fill(255);
+    mazeButtonMOGraphic.ellipse(25, 25, 45);
 }
