@@ -193,7 +193,9 @@ class Pathfind {
                 animationQueue.push(nextFrame);
             }
         }
-        // console.log(foundPath);
+        if (!foundPath) {
+            this.noPathFound();
+        }
         return foundPath;
     }
 
@@ -286,7 +288,9 @@ class Pathfind {
             counter++;
 
         }
-
+        if (!foundPath) {
+            this.noPathFound();
+        }
         return foundPath;
     }
 
@@ -382,6 +386,16 @@ class Pathfind {
         for (let i = 0; i < this.grid.length; i++) {
             for (let j = 0; j < this.grid[0].length; j++) {
                 this.grid[i][j].isWall = false;
+            }
+        }
+    }
+
+    noPathFound() {
+        for (let i = 0; i < this.grid.length; i++) {
+            for (let j = 0; j < this.grid[0].length; j++) {
+                if (this.grid[i][j].hasBeenSearched) {
+                    this.grid[i][j].isDeadEnd = true;
+                }
             }
         }
     }
