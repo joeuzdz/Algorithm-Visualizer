@@ -20,7 +20,7 @@ class Pathfind {
                 }
                 this.grid.push(newCol);
             }
-            this.createMaze();
+            // this.createMaze();
         }
         this.grid[0][floor(this.grid[0].length/2)].isStartNode = true;
         this.grid[this.grid.length - 1][floor(this.grid[0].length/2)].isEndNode = true;
@@ -69,6 +69,8 @@ class Pathfind {
     }
 
     createMaze() {
+        this.clearWalls();
+
         for (let i = 4; i < this.grid.length - 4; i += 4) {
             for (let j = 0; j < this.grid[0].length; j++) {
                 this.grid[i][j].isWall = true;
@@ -135,6 +137,7 @@ class Pathfind {
         let nextFrame;
 
         let counter = 0;
+        let foundPath = false;
         while (!currentNode.isEndNode) {
             nextFrame = this.get1DGridClone();
 
@@ -162,6 +165,9 @@ class Pathfind {
                     savedIdx = i;
                 }
             }
+            if (low == Infinity) {
+                break;
+            }
             currentNode = unvisited[savedIdx];
             currentNode.hasBeenSearched = true;
             
@@ -175,16 +181,20 @@ class Pathfind {
             counter++;
 
             if (currentNode.isEndNode) {
+                foundPath = true;
                 animationQueue.push(nextFrame);
             }
         }
-
-        for (let i = 0; i < currentNode.dk_path.length; i++) {
-            nextFrame = this.get1DGridClone();
-            currentNode.dk_path[i].isFinalPath = true;
-            nextFrame.push(currentNode.dk_path[i]);
-            animationQueue.push(nextFrame);
+        if (foundPath) {
+            for (let i = 0; i < currentNode.dk_path.length; i++) {
+                nextFrame = this.get1DGridClone();
+                currentNode.dk_path[i].isFinalPath = true;
+                nextFrame.push(currentNode.dk_path[i]);
+                animationQueue.push(nextFrame);
+            }
         }
+        // console.log(foundPath);
+        return foundPath;
     }
 
     astar() {
@@ -199,6 +209,7 @@ class Pathfind {
 
         let nextFrame;
         let counter = 0;
+        let foundPath = false;
         while(openList.length != 0) {
 
             nextFrame = this.get1DGridClone();
@@ -229,7 +240,9 @@ class Pathfind {
                     animationQueue.push(nextFrame);
                 }
 
-                return;
+                foundPath = true;
+                break;
+
             }
             
 
@@ -273,6 +286,8 @@ class Pathfind {
             counter++;
 
         }
+
+        return foundPath;
     }
 
     setFGHValues() {
@@ -350,6 +365,23 @@ class Pathfind {
                 if (this.grid[i][j].isEndNode) {
                     return this.grid[i][j];
                 }
+            }
+        }
+    }
+
+    // clearNodes() {
+    //     for (let i = 0; i < this.grid.length; i++) {
+    //         for (let j = 0; j < this.grid[0].length; j++) {
+    //             this.grid[i][j].hasBeenSearched = false;
+    //             this.grid[i][j].isFinalPath = false;
+    //         }
+    //     }
+    // }
+
+    clearWalls() {
+        for (let i = 0; i < this.grid.length; i++) {
+            for (let j = 0; j < this.grid[0].length; j++) {
+                this.grid[i][j].isWall = false;
             }
         }
     }

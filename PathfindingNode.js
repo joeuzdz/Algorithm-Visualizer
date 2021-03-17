@@ -38,33 +38,24 @@ class PathfindingNode {
             fill(180);
             stroke(180);
         }  else {
-            fill(220);
-            let sWeight = map(slider.value(), slider.elt.min, slider.elt.max, 1, 0.5); 
+            let sWeight = map(slider.value(), slider.elt.min, slider.elt.max, 1, 0.5);
             strokeWeight(sWeight);
-            stroke('#add8e6');
-            stroke(220);
-            noStroke();
-            noFill();
+            fill('#2a547f');
+            stroke('#2a547f');
+            stroke('#24476c');
         }
 
         if (this.isFinalPath) {
             fill(70);
             stroke(70);
-            // let c = floor(random(60,80));
-            // fill(c);
-            // stroke(c);
-            // fill(252, 172, 163, 230);
-            // stroke(252, 172, 163, 230);
-            // fill(251, 150, 138, 230);
-            // stroke(251, 150, 138, 230);
         }
         
         if (this.isStartNode) {
+            noStroke();
             fill('green');
-            noStroke();
         } else if (this.isEndNode) {
-            fill('red');
             noStroke();
+            fill('#b20000');
         }
 
         //round 4 corners
