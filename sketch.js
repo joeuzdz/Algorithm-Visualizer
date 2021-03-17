@@ -20,7 +20,8 @@ let resetButton, resetButtonGraphic, resetButtonMOGraphic;
 let ControlType = Object.freeze({
                     PLAY: 1,
                     PAUSE: 2,
-                    RESET: 3
+                    RESET: 3,
+                    MAZE: 4
                     })
 
 //mode globals
@@ -65,6 +66,11 @@ const sliderStepInterval  = 2;
 let globalID = 0;
 
 let pathfind;
+let didAnimate = false;
+let canDraw = false;
+let doDraw = false;
+let doAddWall = true;
+let mazeImage;
 
 let isLoading = false;
 let triggerCounter = 0;
@@ -74,13 +80,13 @@ function setup() {
     createCanvas(max(windowWidth,minScreenWidth), max(windowHeight,minScreenHeight));
     defineGlobals();
     setupAlgoButtons();
+    mazeImage = loadImage('assets/maze.png');
     createControlButtonGraphics();
     setupControlButtons();
     textFont(font);
     rectMode(CENTER);
     imageMode(CENTER);
     setupSlider();
-    
 }
 
 //RUNS REPEATEDLY
@@ -98,8 +104,9 @@ function draw() {
         updateSlider();
     }
 
+    
 
-    checkMousePointer();
+    checkMouse();
 
     if (animationQueue.length != 0) { //then display animation queue frame by frame
         let nextFrame = animationQueue[animationIterator];
@@ -151,7 +158,6 @@ function draw() {
         }
         triggerCounter++;
         if (triggerCounter > 1) {
-            console.log('what');
             playAlgorithm();
             isLoading = false;
             playButton.isEnabled = true;
@@ -200,17 +206,55 @@ function setupControlButtons() {
     // pauseButton = new ControlButton(ControlType.PAUSE, 50, 50, false);
     resetButton = new ControlButton(ControlType.RESET, 50, 50, true);
 
+    mazeButton = new ControlButton(ControlType.MAZE, 50, 50, true);
+    mazeButton.isEnabled = false;
+
     controlButtons.push(playButton);
     // controlButtons.push(pauseButton);
     controlButtons.push(resetButton);
+    controlButtons.push(mazeButton);
 
 }
 
 function updateControlButtonPositions() {
-    playButton.xPos = midlineX - 27;
-    playButton.yPos = height - 50;
-    resetButton.xPos = midlineX + 38;
-    resetButton.yPos = height - 50;
+   
+    if (currentMode == Mode.PATHFIND) {
+        playButton.xPos = midlineX;
+        playButton.yPos = height - 50;
+        resetButton.xPos = midlineX + 60;
+        resetButton.yPos = height - 50;
+        mazeButton.xPos = midlineX - 60;
+        mazeButton.yPos = height - 50;
+    } else {
+        playButton.xPos = midlineX - 27;
+        playButton.yPos = height - 50;
+        resetButton.xPos = midlineX + 38;
+        resetButton.yPos = height - 50;
+    }
+   
+}
+
+function displayControlButtons() {
+    updateControlButtonPositions();
+    
+    push();
+    noStroke();
+    fill(255, 110);
+    if (currentMode == Mode.PATHFIND) {
+        rect(midlineX, height - 50, 120, 45);
+    } else {
+        rect(midlineX, height - 50, 65, 45);
+
+    }
+    pop();
+    
+    for (let button of controlButtons) {
+        button.show();
+    }
+
+    if (currentMode == Mode.PATHFIND) {
+        image(mazeImage, midlineX - 60, height - 50, 25, 25);
+    }
 }
 
 //update dimension-dependent variables
@@ -259,19 +303,6 @@ function displayAlgoButtons() {
     }
 }
 
-function displayControlButtons() {
-    updateControlButtonPositions();
-    
-    push();
-    noStroke();
-    fill(255, 110);
-    rect(midlineX, height - 50, 65, 45);
-    pop();
-    
-    for (let button of controlButtons) {
-        button.show();
-    }
-}
 
 //displays screen dimensions in lower right corner of screen
 function displayScreenDimensions() {
@@ -305,6 +336,47 @@ function mouseClicked() {
             button.clicked();
         }
     }
+}
+
+function mousePressed() {
+    if (currentMode == Mode.PATHFIND && canDraw) {
+        for (let i = 0; i < pathfind.grid.length; i++) {
+            for (let j = 0; j < pathfind.grid[0].length; j++) {
+                if (pathfind.inCanvas()) {
+                    doDraw = true;
+                    if (pathfind.grid[i][j].rollover()) {
+                        if (pathfind.grid[i][j].isWall) {
+                            doAddWall = false;
+                        } else {
+                            doAddWall = true;
+                        }
+                    }
+                } else {
+                    doDraw = false;
+                }
+            }
+        }
+    }
+}
+
+function checkMouse() {
+    checkMousePointer();
+
+    if (currentMode == Mode.PATHFIND && canDraw && doDraw) {
+        if (mouseIsPressed && pathfind.inCanvas()) {
+            let x = mouseX - pathfind.origin.x;
+            let i = floor(x / pathfind.nodeSize);
+            let y = mouseY - pathfind.origin.y;
+            let j = floor(y / pathfind.nodeSize);
+            // console.log(i , j);
+            if (doAddWall && !pathfind.grid[i][j].isStartNode && !pathfind.grid[i][j].isEndNode) {
+                pathfind.grid[i][j].isWall = true;
+            } else {
+                pathfind.grid[i][j].isWall = false;
+            }
+        }
+    }
+
 }
 
 //check for mouse over to change cursor
