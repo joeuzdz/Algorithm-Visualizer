@@ -16,7 +16,6 @@ class Pathfind {
                 if (colLength % 2 == 0) colLength++;
                 for (let j = 0; j < colLength; j++) {
                     let newNode = new PathfindingNode(i, j);
-                    // if (random() < 0.5) newNode.isWall = true;
                     newCol.push(newNode);   
                 }
                 this.grid.push(newCol);
@@ -123,26 +122,21 @@ class Pathfind {
     }
 
     dijkstras() {
-        isLoading = true;
         this.setCellNeighbors();
         
         let unvisited = [];
         let visited = [];
         let currentNode, testNode, newDist;
-        for (let i = 0; i < this.grid.length; i++) {
-            for (let j = 0; j < this.grid[0].length; j++) {
-                unvisited.push(this.grid[i][j]);
-                if (this.grid[i][j].isStartNode) {
-                    currentNode = this.grid[i][j];
-                }
-            }
-        }
+
+        unvisited = this.get1DGrid();
+        currentNode = this.getStartNode();
         currentNode.dk_tentDist = 0;
+        
         let nextFrame;
 
         let counter = 0;
         while (!currentNode.isEndNode) {
-            nextFrame = [...this.oneDGrid()];
+            nextFrame = this.get1DGridClone();
 
             for (let i = 0; i < currentNode.neighbors.length; i++) {
                 testNode = currentNode.neighbors[i];
@@ -155,7 +149,7 @@ class Pathfind {
                         testNode.dk_path.push(testNode);
                     }
                 }
-                nextFrame.push(testNode.clone());
+                // nextFrame.push(testNode.clone());
             }
             visited.push(currentNode);
             let idx = unvisited.indexOf(currentNode);
@@ -186,12 +180,120 @@ class Pathfind {
         }
 
         for (let i = 0; i < currentNode.dk_path.length; i++) {
-            nextFrame = [...this.oneDGrid()];
+            nextFrame = this.get1DGridClone();
             currentNode.dk_path[i].isFinalPath = true;
             nextFrame.push(currentNode.dk_path[i]);
             animationQueue.push(nextFrame);
         }
+    }
+
+    astar() {
+        this.setCellNeighbors(); 
+        this.setFGHValues();
+       
+        let currentNode;
+        let openList = [];
+        let closedList = [];
         
+        openList.push(this.getStartNode());
+
+        let nextFrame;
+        let counter = 0;
+        while(openList.length != 0) {
+
+            nextFrame = this.get1DGridClone();
+
+            let lowIdx = 0;
+            for (let i = 0; i < openList.length; i++) {
+                if (openList[i].as_f < openList[lowIdx].as_f) {
+                    lowIdx = i;
+                }
+            }
+
+            currentNode = openList[lowIdx];
+            currentNode.hasBeenSearched = true;
+
+            if (currentNode.isEndNode) {
+                animationQueue.push(nextFrame);
+                let curr = currentNode;
+                let path = [];
+                while(curr.as_parent) {
+                    path.push(curr);
+                    curr = curr.as_parent;
+                }
+                
+                for (let i = path.length - 1; i >= 0; i--) {
+                    nextFrame = this.get1DGridClone();
+                    path[i].isFinalPath = true;
+                    nextFrame.push(path[i]);
+                    animationQueue.push(nextFrame);
+                }
+
+                return;
+            }
+            
+
+
+            closedList.push(currentNode);
+            // currentNode.hasBeenSearched = true;
+            let idx = openList.indexOf(currentNode);
+            openList.splice(idx, 1);
+            // console.log(currentNode);
+            for (let i = 0; i < currentNode.neighbors.length; i++) {
+                let testNode = currentNode.neighbors[i];
+                nextFrame.push(testNode.clone());
+                if (closedList.includes(testNode)) {
+                    continue;
+                }
+
+                let gScore = currentNode.as_g + 1;
+                let gScoreIsBest = false;
+
+                if (!openList.includes(testNode)) {
+                    gScoreIsBest = true;
+                    openList.push(testNode);
+                } else if (gScore < testNode.as_g) {
+                    gScoreIsBest = true;
+                }
+
+                if (gScoreIsBest) {
+                    testNode.as_parent = currentNode;
+                    testNode.as_g = gScore;
+                    testNode.as_f = testNode.as_g + testNode.as_h;
+                }
+            }
+
+            let countTo = floor(map(slider.value(), slider.elt.min, slider.elt.max, 1, 5));
+            if (counter % countTo == 0) {
+                let numFrames = 1;
+                for (let i = 0; i < numFrames; i++) {
+                    animationQueue.push(nextFrame);
+                }
+            }
+            counter++;
+
+        }
+    }
+
+    setFGHValues() {
+        for (let i = 0; i < this.grid.length; i++) {
+            for (let j = 0; j < this.grid[0].length; j++) {
+                let node = this.grid[i][j];
+                if (node.isStartNode) {
+                    node.as_g = 0;
+                } else {
+                    node.as_g = Infinity;
+                }
+                node.as_h = this.manhattan(node, this.getEndNode());
+                node.as_f = node.as_g + node.as_h;
+            }
+        }
+    }
+
+    manhattan(nodeA, nodeB) {
+        let d1 = abs(nodeA.x - nodeB.x);
+        let d2 = abs(nodeA.y - nodeB.y);
+        return d1 + d2;
     }
 
     setCellNeighbors() {
@@ -213,14 +315,43 @@ class Pathfind {
         }
     }
 
-    oneDGrid() {
+    get1DGrid() {
         let ret1DArr = [];
         for (let i = 0; i < this.grid.length; i++) {
             for (let j = 0; j < this.grid[0].length; j++) {
-                ret1DArr.push(this.grid[i][j].clone());
+                ret1DArr.push(this.grid[i][j]);
             }
         }
         return ret1DArr;
+    }
+    get1DGridClone() {
+        let ret1DArrClone = [];
+        for (let i = 0; i < this.grid.length; i++) {
+            for (let j = 0; j < this.grid[0].length; j++) {
+                ret1DArrClone.push(this.grid[i][j].clone());
+            }
+        }
+        return ret1DArrClone;
+    }
+
+    getStartNode() {
+        for (let i = 0; i < this.grid.length; i++) {
+            for (let j = 0; j < this.grid[0].length; j++) {
+                if (this.grid[i][j].isStartNode) {
+                    return this.grid[i][j];
+                }
+            }
+        }
+    }
+
+    getEndNode() {
+        for (let i = 0; i < this.grid.length; i++) {
+            for (let j = 0; j < this.grid[0].length; j++) {
+                if (this.grid[i][j].isEndNode) {
+                    return this.grid[i][j];
+                }
+            }
+        }
     }
 }
 

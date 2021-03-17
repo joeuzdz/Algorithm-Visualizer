@@ -113,5 +113,11 @@ function playAlgorithm() {
             } else {
                 animationIsPaused = false;
             }
+        case Algo.ASTAR:
+            if (animationQueue.length == 0) {
+                pathfind.astar();
+            } else {
+                animationIsPaused = false;
+            }        
     }
 }

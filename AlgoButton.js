@@ -39,6 +39,9 @@ class AlgoButton {
             case Algo.DIJKSTRAS:
                 string = 'Dijkstras';
                 break;
+            case Algo.ASTAR:
+                string = 'A* (Manhattan)';
+                break;
             default:
                 string = '???';
                 break;
@@ -83,6 +86,12 @@ class AlgoButton {
                 setupPathfind();
                 console.log('dijkstras');
                 break;
+            case Algo.ASTAR:
+                currentAlgo = Algo.ASTAR;
+                setupPathfind();
+                console.log('astar');
+                break;
+
         }
         
     }
