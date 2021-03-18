@@ -189,7 +189,7 @@ class Pathfind {
             for (let i = 0; i < currentNode.dk_path.length; i++) {
                 nextFrame = this.get1DGridClone();
                 currentNode.dk_path[i].isFinalPath = true;
-                nextFrame.push(currentNode.dk_path[i]);
+                // nextFrame.push(currentNode.dk_path[i]);
                 animationQueue.push(nextFrame);
             }
         }
@@ -238,7 +238,7 @@ class Pathfind {
                 for (let i = path.length - 1; i >= 0; i--) {
                     nextFrame = this.get1DGridClone();
                     path[i].isFinalPath = true;
-                    nextFrame.push(path[i]);
+                    // nextFrame.push(path[i]);
                     animationQueue.push(nextFrame);
                 }
 
@@ -246,8 +246,6 @@ class Pathfind {
                 break;
 
             }
-            
-
 
             closedList.push(currentNode);
             // currentNode.hasBeenSearched = true;
@@ -373,16 +371,23 @@ class Pathfind {
         }
     }
 
-    // clearNodes() {
-    //     for (let i = 0; i < this.grid.length; i++) {
-    //         for (let j = 0; j < this.grid[0].length; j++) {
-    //             this.grid[i][j].hasBeenSearched = false;
-    //             this.grid[i][j].isFinalPath = false;
-    //         }
-    //     }
-    // }
+    clearPath() {
+        for (let i = 0; i < this.grid.length; i++) {
+            for (let j = 0; j < this.grid[0].length; j++) {
+                // this.grid[i][j].isWall = false;
+                this.grid[i][j].isDeadEnd = false;
+                this.grid[i][j].hasBeenSearched = false;
+                this.grid[i][j].isFinalPath = false;
+                this.grid[i][j].neighbors = [];
+                this.grid[i][j].dk_tentDist = Infinity;
+                this.grid[i][j].dk_path = [];
+                // this.grid[i][j].
+            }
+        }
+    }
 
     clearWalls() {
+        setupPathfind();
         for (let i = 0; i < this.grid.length; i++) {
             for (let j = 0; j < this.grid[0].length; j++) {
                 this.grid[i][j].isWall = false;
