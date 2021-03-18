@@ -262,7 +262,7 @@ function displayControlButtons() {
 
     if (currentMode == Mode.PATHFIND) {
         image(mazeImage, midlineX - 85, height - 50, 25, 25);
-        image(binImage, midlineX + 85, height - 50, 25, 25);
+        image(binImage, midlineX + 85, height - 50, 30, 30);
     }
 }
 
