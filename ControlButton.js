@@ -10,6 +10,11 @@ class ControlButton {
     }
 
     show() {
+        //for text
+        push();
+        fill(200);
+        textAlign(CENTER);
+        textSize(14);
         if (this.type == ControlType.PLAY) {
             if (!this.isEnabled) {
                 if (this.isPaused) {
@@ -21,12 +26,16 @@ class ControlButton {
                 if (this.isPaused) {
                     if (this.rollover()) {
                         image(playButtonMOGraphic, this.xPos, this.yPos);
+                        
+                        text('Play', midlineX, height - 10);
                     } else {
                         image(playButtonGraphic, this.xPos, this.yPos);
                     }
                 } else {
                     if (this.rollover()) {
                         image(pauseButtonMOGraphic, this.xPos, this.yPos);
+
+                        text('Pause', midlineX, height - 10);
                     } else {
                         image(pauseButtonGraphic, this.xPos, this.yPos);
                     }
@@ -36,22 +45,31 @@ class ControlButton {
         } else if (this.type == ControlType.RESET) {
             if (this.rollover()) {
                 image(resetButtonMOGraphic, this.xPos, this.yPos);
+
+                text('Reset', midlineX, height - 10);
             } else {
                 image(resetButtonGraphic, this.xPos, this.yPos);
             }
 
-        } else if (this.type == ControlType.MAZE && currentMode == Mode.PATHFIND) {
+        } else if ((this.type == ControlType.MAZE || this.type == ControlType.CLEAR) && currentMode == Mode.PATHFIND) {
             if (this.isEnabled) {
                 if (this.rollover()) {
-                    image(mazeButtonMOGraphic, this.xPos, this.yPos);
+                    image(genericButtonMOGraphic, this.xPos, this.yPos);
+
+                    if (this.type == ControlType.MAZE) {
+                        text('Generate Maze', midlineX, height - 10);
+                    } else {
+                        text('Clear Board', midlineX, height - 10);
+                    }
                 } else {
-                    image(mazeButtonGraphic, this.xPos, this.yPos);
+                    image(genericButtonGraphic, this.xPos, this.yPos);
                 }
             } else {
-                image(mazeButtonDisGraphic, this.xPos, this.yPos);
+                image(genericButtonDisGraphic, this.xPos, this.yPos);
             }
             
         }
+        pop();
     }
 
     rollover() {
@@ -85,6 +103,9 @@ class ControlButton {
 
         } else if (this.type == ControlType.MAZE) {
             pathfind.createMaze();
+        } else if (this.type == ControlType.CLEAR) {
+            pathfind.clearWalls();
+            setupPathfind();
         }
     }
 

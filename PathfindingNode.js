@@ -5,6 +5,7 @@ class PathfindingNode {
         this.pos = pos;
         this.size = size;
         this.isWall = isWall;
+        this.isDeadEnd = false;
         this.hasBeenSearched = hasBeenSearched;
         this.isStartNode = isStartNode;
         this.isEndNode = isEndNode;
@@ -44,6 +45,10 @@ class PathfindingNode {
             stroke('#2a547f');
             stroke('#24476c');
         }
+        if (this.isDeadEnd) {
+            fill('#ff4c4c');
+            stroke('#ff4c4c');
+        }
 
         if (this.isFinalPath) {
             fill(70);
@@ -56,6 +61,7 @@ class PathfindingNode {
         } else if (this.isEndNode) {
             noStroke();
             fill('#b20000');
+            fill('#ff4c4c');
         }
 
         //round 4 corners

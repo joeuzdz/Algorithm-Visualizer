@@ -126,10 +126,14 @@ function setupPathfind() {
     slider.removeAttribute('disabled');
     mazeButton.isEnabled = true;
 
-    // if (currentMode != Mode.PATHFIND) {
+    if (currentMode != Mode.PATHFIND) {
         pathfind = new Pathfind();
         pathfind.updateGrid();
-    // }
+    } else {
+        pathfind.clearPath();
+    }
+
+  
     
 
     updateSlider();
