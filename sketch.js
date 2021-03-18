@@ -21,7 +21,8 @@ let ControlType = Object.freeze({
                     PLAY: 1,
                     PAUSE: 2,
                     RESET: 3,
-                    MAZE: 4
+                    MAZE: 4,
+                    CLEAR: 5
                     })
 
 //mode globals
@@ -71,6 +72,7 @@ let canDraw = false;
 let doDraw = false;
 let doAddWall = true;
 let mazeImage;
+let binImage;
 
 let isLoading = false;
 let triggerCounter = 0;
@@ -81,6 +83,7 @@ function setup() {
     defineGlobals();
     setupAlgoButtons();
     mazeImage = loadImage('assets/maze.png');
+    binImage = loadImage('assets/bin.png');
     createControlButtonGraphics();
     setupControlButtons();
     textFont(font);
@@ -209,26 +212,32 @@ function setupControlButtons() {
     mazeButton = new ControlButton(ControlType.MAZE, 50, 50, true);
     mazeButton.isEnabled = false;
 
+    clearButton = new ControlButton(ControlType.CLEAR, 50, 50, true);
+    clearButton.isEnabled = true;
+
     controlButtons.push(playButton);
     // controlButtons.push(pauseButton);
     controlButtons.push(resetButton);
     controlButtons.push(mazeButton);
+    controlButtons.push(clearButton);
 
 }
 
 function updateControlButtonPositions() {
    
     if (currentMode == Mode.PATHFIND) {
-        playButton.xPos = midlineX;
+        playButton.xPos = midlineX - 25;
         playButton.yPos = height - 50;
-        resetButton.xPos = midlineX + 60;
+        resetButton.xPos = midlineX + 35;
         resetButton.yPos = height - 50;
-        mazeButton.xPos = midlineX - 60;
+        mazeButton.xPos = midlineX - 85;
         mazeButton.yPos = height - 50;
+        clearButton.xPos = midlineX + 85;
+        clearButton.yPos = height - 50;
     } else {
-        playButton.xPos = midlineX - 27;
+        playButton.xPos = midlineX - 25;
         playButton.yPos = height - 50;
-        resetButton.xPos = midlineX + 38;
+        resetButton.xPos = midlineX + 35;
         resetButton.yPos = height - 50;
     }
    
@@ -241,10 +250,9 @@ function displayControlButtons() {
     noStroke();
     fill(255, 110);
     if (currentMode == Mode.PATHFIND) {
-        rect(midlineX, height - 50, 120, 45);
+        rect(midlineX, height - 50, 170, 45);
     } else {
-        rect(midlineX, height - 50, 65, 45);
-
+        rect(midlineX, height - 50, 60, 45);
     }
     pop();
     
@@ -253,7 +261,8 @@ function displayControlButtons() {
     }
 
     if (currentMode == Mode.PATHFIND) {
-        image(mazeImage, midlineX - 60, height - 50, 25, 25);
+        image(mazeImage, midlineX - 85, height - 50, 25, 25);
+        image(binImage, midlineX + 85, height - 50, 25, 25);
     }
 }
 

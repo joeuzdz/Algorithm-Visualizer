@@ -85,26 +85,21 @@ function createControlButtonGraphics() {
     resetButtonMOGraphic.fill(0);
     resetButtonMOGraphic.triangle(27, 20, 36, 11, 36, 20);
 
-    mazeButtonGraphic = createGraphics(50, 50);
-    mazeButtonGraphic.strokeWeight(2);
-    mazeButtonGraphic.stroke(100);
-    mazeButtonGraphic.fill(220);
-    mazeButtonGraphic.ellipse(25, 25, 45);
-    mazeButtonGraphic.noStroke();
-    mazeButtonGraphic.fill(0);
-    // mazeButtonGraphic.image(mazeImage, 0, 0, 10, 10);
-    // mazeButtonGraphic.ellipse(0, 0, 10);
+    genericButtonGraphic = createGraphics(50, 50);
+    genericButtonGraphic.strokeWeight(2);
+    genericButtonGraphic.stroke(100);
+    genericButtonGraphic.fill(220);
+    genericButtonGraphic.ellipse(25, 25, 45);
 
+    genericButtonDisGraphic = createGraphics(50, 50);
+    genericButtonDisGraphic.strokeWeight(2);
+    genericButtonDisGraphic.stroke(130);
+    genericButtonDisGraphic.fill(170);
+    genericButtonDisGraphic.ellipse(25, 25, 45);
 
-    mazeButtonDisGraphic = createGraphics(50, 50);
-    mazeButtonDisGraphic.strokeWeight(2);
-    mazeButtonDisGraphic.stroke(130);
-    mazeButtonDisGraphic.fill(170);
-    mazeButtonDisGraphic.ellipse(25, 25, 45);
-
-    mazeButtonMOGraphic = createGraphics(50, 50);
-    mazeButtonMOGraphic.strokeWeight(2);
-    mazeButtonMOGraphic.stroke(100);
-    mazeButtonMOGraphic.fill(255);
-    mazeButtonMOGraphic.ellipse(25, 25, 45);
+    genericButtonMOGraphic = createGraphics(50, 50);
+    genericButtonMOGraphic.strokeWeight(2);
+    genericButtonMOGraphic.stroke(100);
+    genericButtonMOGraphic.fill(255);
+    genericButtonMOGraphic.ellipse(25, 25, 45);
 }
