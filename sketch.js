@@ -41,12 +41,14 @@ let Algo = Object.freeze({
                     ASTAR: 9,
                     INSERTIONSORT: 10,
                     SELECTIONSORT: 11,
+                    PRIMS: 12,
+                    KRUSKALS: 13
                     })
 //MODE ENUM
 let Mode = Object.freeze({
                     DEFAULT: 1,
                     SORT: 2,
-                    SEARCH: 3,
+                    MST: 3,
                     PATHFIND: 4,
                     MISC: 5
                     })
@@ -58,7 +60,7 @@ let animationIterator = 0;
 let animationIsPaused = false;
 
 //collection globals 
-let sortCollection;
+let sort;
 let slider;
 const sliderMin           = 19;
 const sliderMax           = 101;
@@ -76,6 +78,8 @@ let binImage;
 
 let isLoading = false;
 let triggerCounter = 0;
+
+let mst;
 
 //RUNS ONCE  
 function setup() {
@@ -125,6 +129,10 @@ function draw() {
             for (let node of nextFrame) {
                 node.show(pathfind.origin.x, pathfind.origin.y, pathfind.nodeSize);
             }
+        } else if (currentMode == Mode.MST) {
+            for (let ve of nextFrame) {
+                ve.show();
+            }
         }
         
 
@@ -139,15 +147,14 @@ function draw() {
     } else { //check currentMode to see what to display 
 
         if (currentMode == Mode.SORT) {
-            if (slider.value() != sortCollection.items.length) {
-                sortCollection.updateBars();
-            }
-            sortCollection.resetBarPositions();
-            sortCollection.show();
-            
+            sort.updateBars();
+            sort.show();
         } else if (currentMode == Mode.PATHFIND) {
             pathfind.updateGrid();
             pathfind.showGrid();
+        } else if (currentMode == Mode.MST) {
+            mst.update();
+            mst.show();
         }
         
 
@@ -166,6 +173,7 @@ function draw() {
             playButton.isEnabled = true;
         }
     }
+
     
 }
 
@@ -197,11 +205,17 @@ function setupAlgoButtons() {
     let dijkstrasButton = new AlgoButton(baseYPos + spacing*i++, Algo.DIJKSTRAS);
     let aStarButton = new AlgoButton(baseYPos + spacing*i++, Algo.ASTAR);
 
+    i++;
+    let primsButton = new AlgoButton(baseYPos + spacing*i++, Algo.PRIMS);
+    let kruskalsButton = new AlgoButton(baseYPos + spacing*i++, Algo.KRUSKALS);
+
     algoButtons.push(bubbleSortButton);
     algoButtons.push(insertionSortButton);
     algoButtons.push(selectionSortButton);
     algoButtons.push(dijkstrasButton);
     algoButtons.push(aStarButton);
+    algoButtons.push(primsButton);
+    algoButtons.push(kruskalsButton);
 }
 
 function setupControlButtons() {

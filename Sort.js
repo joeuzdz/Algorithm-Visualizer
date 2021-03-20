@@ -6,7 +6,9 @@ class Sort {
     }
 
     updateBars() {
-        this.updateNumBars();
+        if (slider.value() != sort.items.length) {
+            this.updateNumBars();
+        }
         this.resetBarPositions();
     }
 

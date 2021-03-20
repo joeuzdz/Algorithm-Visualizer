@@ -28,10 +28,7 @@ class Pathfind {
     }
 
     showGrid() {
-        let minPercentage = 0.5;
-        let maxPercentage = 0.8;
-        let screenPercentage = map(slider.value(), slider.elt.min, slider.elt.max, minPercentage, maxPercentage);
-        screenPercentage = 0.8;
+        let screenPercentage = 0.8;
 
         let pfWidth = displayWidth * screenPercentage;
         // let pfWidth = width * screenPercentage;
@@ -51,11 +48,6 @@ class Pathfind {
         let originY = (height - pfHeight) / 2;
         this.origin = createVector(originX, originY);
 
-        // push();
-        // noFill();
-        // stroke(180);
-        // rect(midlineX, height/2, pfWidth + 6, pfHeight + 6, 20);
-        // pop();
 
         for (let i = 0; i < this.grid.length; i++) {
             for (let j = 0; j < this.grid[0].length; j++) {
@@ -171,7 +163,7 @@ class Pathfind {
             currentNode = unvisited[savedIdx];
             currentNode.hasBeenSearched = true;
             
-            let countTo = floor(map(slider.value(), slider.elt.min, slider.elt.max, 1, 5));
+            let countTo = floor(map(slider.value(), slider.elt.min, slider.elt.max, 1, 10));
             if (counter % countTo == 0) {
                 let numFrames = 1;
                 for (let i = 0; i < numFrames; i++) {
@@ -276,7 +268,7 @@ class Pathfind {
                 }
             }
 
-            let countTo = floor(map(slider.value(), slider.elt.min, slider.elt.max, 1, 5));
+            let countTo = floor(map(slider.value(), slider.elt.min, slider.elt.max, 1, 10));
             if (counter % countTo == 0) {
                 let numFrames = 1;
                 for (let i = 0; i < numFrames; i++) {

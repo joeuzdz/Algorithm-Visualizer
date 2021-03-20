@@ -99,6 +99,8 @@ class ControlButton {
                 setupSort();
             } else if (currentMode == Mode.PATHFIND) {
                 setupPathfind();
+            } else if (currentMode == Mode.MST) {
+                setupMST();
             }
 
         } else if (this.type == ControlType.MAZE) {
@@ -125,21 +127,21 @@ function playAlgorithm() {
     switch (currentAlgo) {
         case Algo.BUBBLESORT:
             if (animationQueue.length == 0) {
-                sortCollection.bubbleSort();
+                sort.bubbleSort();
             } else {
                 animationIsPaused = false;
             }
             break;
         case Algo.INSERTIONSORT:
             if (animationQueue.length == 0) {
-                sortCollection.insertionSort();
+                sort.insertionSort();
             } else {
                 animationIsPaused = false;
             }
             break;
         case Algo.SELECTIONSORT:
             if (animationQueue.length == 0) {
-                sortCollection.selectionSort();
+                sort.selectionSort();
             } else {
                 animationIsPaused = false;
             }
@@ -155,6 +157,18 @@ function playAlgorithm() {
                 pathfind.astar();
             } else {
                 animationIsPaused = false;
-            }        
+            }     
+        case Algo.PRIMS:
+            if (animationQueue.length == 0) {
+                mst.prims();
+            } else {
+                animationIsPaused = false;
+            }
+        case Algo.KRUSKALS:
+            if (animationQueue.length == 0) {
+                mst.kruskals();
+            } else {
+                animationIsPaused = false;
+            }
     }
 }
