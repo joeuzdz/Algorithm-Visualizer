@@ -16,6 +16,7 @@ let controlButtons = [];
 let playButton, playButtonGraphic, playButtonMOGraphic, playButtonDisGraphic;
 let pauseButtonGraphic, pauseButtonMOGraphic;
 let resetButton, resetButtonGraphic, resetButtonMOGraphic;
+let mazeButton, clearButton;
 
 let ControlType = Object.freeze({
                     PLAY: 1,

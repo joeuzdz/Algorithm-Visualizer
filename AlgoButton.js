@@ -120,6 +120,7 @@ function setupSort() {
     playButton.isPaused = true;
     slider.removeAttribute('disabled');
     mazeButton.isEnabled = false;
+    clearButton.isEnabled = false;
     sort = new Sort();
     sort.updateBars();
     
@@ -141,7 +142,7 @@ function setupPathfind() {
     playButton.isPaused = true;
     slider.removeAttribute('disabled');
     mazeButton.isEnabled = true;
-
+    clearButton.isEnabled = true;
     if (currentMode != Mode.PATHFIND) {
         pathfind = new Pathfind();
         pathfind.updateGrid();
@@ -168,7 +169,9 @@ function setupMST() {
     playButton.isEnabled = true;
     playButton.isPaused = true;
     slider.removeAttribute('disabled');
-
+    mazeButton.isEnabled = false;
+    clearButton.isEnabled = false;
+    
     mst = new MST();
 
     updateSlider();
