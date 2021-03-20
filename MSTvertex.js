@@ -5,7 +5,6 @@ class MSTvertex {
         this.pos = createVector();
         //kruskals
         this.neighbors = [];
-        this.id = globalID++;
     }
 
     show() {

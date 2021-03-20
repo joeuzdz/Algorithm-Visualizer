@@ -2,7 +2,7 @@ class MSTedge {
     constructor(v1, v2) {
         this.v1 = v1;
         this.v2 = v2;
-        this.distance = dist(v1.x, v1.y, v2.x, v2.y);
+        this.distance = dist(v1.pos.x, v1.pos.y, v2.pos.x, v2.pos.y);
     }
 
     show() {
