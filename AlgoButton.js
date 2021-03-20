@@ -37,10 +37,16 @@ class AlgoButton {
                 string = 'Selection Sort';
                 break;
             case Algo.DIJKSTRAS:
-                string = 'Dijkstras';
+                string = 'Dijkstra\'s';
                 break;
             case Algo.ASTAR:
                 string = 'A* (Manhattan)';
+                break;
+            case Algo.PRIMS:
+                string = 'Prim\'s';
+                break;
+            case Algo.KRUSKALS:
+                string = 'Kruskal\'s';
                 break;
             default:
                 string = '???';
@@ -91,6 +97,16 @@ class AlgoButton {
                 setupPathfind();
                 console.log('astar');
                 break;
+            case Algo.PRIMS:
+                currentAlgo = Algo.PRIMS;
+                setupMST();
+                console.log('prims');
+                break;
+            case Algo.KRUSKALS:
+                currentAlgo = Algo.KRUSKALS;
+                setupMST();
+                console.log('kruskals');
+                break;
 
         }
         
@@ -104,11 +120,11 @@ function setupSort() {
     playButton.isPaused = true;
     slider.removeAttribute('disabled');
     mazeButton.isEnabled = false;
-    sortCollection = new Sort();
-    sortCollection.updateBars();
+    sort = new Sort();
+    sort.updateBars();
     
     updateSlider();
-    if (currentMode != Mode.SORT) {
+    if (currentMode == Mode.PATHFIND) {
         let sliderValue = slider.value();
         let newValue = map(sliderValue, sliderMin, 59, sliderMin, sliderMax);
         slider.elt.step = 2;
@@ -145,6 +161,25 @@ function setupPathfind() {
         slider.elt.value = newValue;
     }
     currentMode = Mode.PATHFIND;
+}
+
+function setupMST() {
+    resetAnimationQueue();
+    playButton.isEnabled = true;
+    playButton.isPaused = true;
+    slider.removeAttribute('disabled');
+
+    mst = new MST();
+
+    updateSlider();
+    if (currentMode == Mode.PATHFIND) {
+        let sliderValue = slider.value();
+        let newValue = map(sliderValue, sliderMin, 59, sliderMin, sliderMax);
+        slider.elt.step = 2;
+        slider.elt.max = sliderMax;
+        slider.elt.value = newValue;
+    }
+    currentMode = Mode.MST;
 }
 
 function resetAnimationQueue() {
