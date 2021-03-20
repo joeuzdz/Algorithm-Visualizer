@@ -24,7 +24,7 @@ class SortingBar {
 
     
     animateSwap(barToSwap) {
-        let baseFrame = sortCollection.cloneArray(sortCollection.items);
+        let baseFrame = sort.cloneArray(sort.items);
 
         for (let i = 0; i < baseFrame.length; i++) {
             let bar = baseFrame[i];
@@ -46,14 +46,14 @@ class SortingBar {
         barToSwap.xPos = thisXPos;
 
         let numFrames;
-        if (sortCollection.items.length > (sliderMax+sliderMin) / 2) {
+        if (sort.items.length > (sliderMax+sliderMin) / 2) {
             numFrames = 1;
         } else {
-            numFrames = floor(map(sortCollection.items.length, sliderMin, (sliderMax+sliderMin) / 2, 15, 1));
+            numFrames = floor(map(sort.items.length, sliderMin, (sliderMax+sliderMin) / 2, 15, 1));
         }
         // numFrames = 100;
         for (let i = 1; i <= numFrames; i++) {
-            let newFrame = sortCollection.cloneArray(baseFrame);
+            let newFrame = sort.cloneArray(baseFrame);
             if (thisXPos < swapXPos) {
                 thisClone.xPos += (xDist/numFrames);
                 swapClone.xPos -= (xDist/numFrames);
