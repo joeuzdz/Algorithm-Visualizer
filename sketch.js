@@ -5,8 +5,10 @@ let font;
 let panelWidth;
 let displayWidth;
 let midlineX;
-const minScreenWidth = 500;
-const minScreenHeight = 500;
+const minScreenWidth = 600;
+const minScreenHeight = 600;
+
+let titleBars = [];
 
 //button globals
 let algoButtons = [];
@@ -86,7 +88,7 @@ let mst;
 function setup() {
     createCanvas(max(windowWidth,minScreenWidth), max(windowHeight,minScreenHeight));
     defineGlobals();
-    setupAlgoButtons();
+    setupAlgoButtonsAndTitles();
     mazeImage = loadImage('assets/maze.png');
     binImage = loadImage('assets/bin.png');
     createControlButtonGraphics();
@@ -112,7 +114,7 @@ function draw() {
         updateSlider();
     }
 
-    
+    showAlgoTitles();
 
     checkMouse();
 
@@ -147,7 +149,9 @@ function draw() {
 
     } else { //check currentMode to see what to display 
 
-        if (currentMode == Mode.SORT) {
+        if (currentMode == Mode.DEFAULT) {
+            displayDefaultMessage();
+        } else if (currentMode == Mode.SORT) {
             sort.updateBars();
             sort.show();
         } else if (currentMode == Mode.PATHFIND) {
@@ -192,23 +196,79 @@ function defineGlobals() {
     // sortCollection = new Sort();
 }
 
+function displayDefaultMessage() {
+    push();
+    fill(200);
+    textAlign(CENTER);
+    textSize(22);
+    text('Click an algorithm', midlineX, height/2 - 15);
+    text('to visualize it!', midlineX, height/2 + 15);
+    pop();
+}
+
+function showAlgoTitles() {
+    let title;
+        switch(currentAlgo) {
+            case Algo.BUBBLESORT:
+                title = 'Bubble Sort';
+                break;
+            case Algo.INSERTIONSORT:
+                title = 'Insertion Sort';
+                break;
+            case Algo.SELECTIONSORT:
+                title = 'Selection Sort';
+                break;
+            case Algo.DIJKSTRAS:
+                title = 'Dijkstra\'s Algorithm';
+                break;
+            case Algo.ASTAR:
+                title = 'A* (Manhattan)';
+                break;
+            case Algo.PRIMS:
+                title = 'Prim\'s Algorithm';
+                break;
+            case Algo.KRUSKALS:
+                title = 'Kruskal\'s Algorithm';
+                break;
+            default:
+                title = '';
+                break;
+        }
+        push();
+        fill(200);
+        textAlign(CENTER);
+        textSize(22);
+        text(title, midlineX, height * 0.1);
+        pop();
+}
+
 //create the algorithm buttons on the panel
-function setupAlgoButtons() {
+function setupAlgoButtonsAndTitles() {
     let baseYPos = 150;
     let spacing = algoButtonHeight;
     let i = 0;
+
+    let sortTitle = new TitleBar(baseYPos + spacing*i++, Mode.SORT);
 
     let bubbleSortButton = new AlgoButton(baseYPos + spacing*i++, Algo.BUBBLESORT);
     let insertionSortButton = new AlgoButton(baseYPos + spacing*i++, Algo.INSERTIONSORT);
     let selectionSortButton = new AlgoButton(baseYPos + spacing*i++, Algo.SELECTIONSORT);
     
-    i++; //spacing
+    i++;
+    let pathfindTitle = new TitleBar(baseYPos + spacing*i++, Mode.PATHFIND);
+
     let dijkstrasButton = new AlgoButton(baseYPos + spacing*i++, Algo.DIJKSTRAS);
     let aStarButton = new AlgoButton(baseYPos + spacing*i++, Algo.ASTAR);
 
     i++;
+    let mstTitle = new TitleBar(baseYPos + spacing*i++, Mode.MST);
+
     let primsButton = new AlgoButton(baseYPos + spacing*i++, Algo.PRIMS);
     let kruskalsButton = new AlgoButton(baseYPos + spacing*i++, Algo.KRUSKALS);
+
+    titleBars.push(sortTitle);
+    titleBars.push(pathfindTitle);
+    titleBars.push(mstTitle);
 
     algoButtons.push(bubbleSortButton);
     algoButtons.push(insertionSortButton);
@@ -291,7 +351,7 @@ function updateDimensions() {
 function displayPanel() {
     displayPanelBackground();
     displayTitle();
-    displayAlgoButtons();
+    displayAlgoButtonsAndTitle();
 }
 
 //displays border of panel
@@ -321,9 +381,13 @@ function displayTitle() {
     pop();
 }
 
-function displayAlgoButtons() {
+function displayAlgoButtonsAndTitle() {
     for (let button of algoButtons) {
         button.show();
+    }
+
+    for (let title of titleBars) {
+        title.show();
     }
 }
 
