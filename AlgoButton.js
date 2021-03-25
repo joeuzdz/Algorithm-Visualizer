@@ -14,12 +14,12 @@ class AlgoButton {
         fill(200);
         if (this.isSelected) {
             fill(190);
-            fill(255, 150);
+            fill(255, 140);
             rect(2, this.yPos, panelWidth - 5, algoButtonHeight);
             fill(10);
         } else if (this.rollover()) {
             fill(170);
-            fill(255, 110);
+            fill(255, 100);
             rect(2, this.yPos, panelWidth - 5, algoButtonHeight);
             fill(10);
         }
@@ -171,7 +171,7 @@ function setupMST() {
     slider.removeAttribute('disabled');
     mazeButton.isEnabled = false;
     clearButton.isEnabled = false;
-    
+
     mst = new MST();
 
     updateSlider();

@@ -28,6 +28,7 @@ class Pathfind {
     }
 
     showGrid() {
+
         let screenPercentage = 0.8;
 
         let pfWidth = displayWidth * screenPercentage;
@@ -48,6 +49,12 @@ class Pathfind {
         let originY = (height - pfHeight) / 2;
         this.origin = createVector(originX, originY);
 
+        push();
+        fill(200);
+        textAlign(CENTER);
+        textSize(18);
+        text('Click and drag to add or remove walls.', midlineX, originY - 20);
+        pop();
 
         for (let i = 0; i < this.grid.length; i++) {
             for (let j = 0; j < this.grid[0].length; j++) {

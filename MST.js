@@ -60,7 +60,7 @@ class MST {
 
             for (let i = 0; i < reached.length; i++) {
                 for (let j = 0; j < unreached.length; j++) {
-                    let distance = dist(reached[i].x, reached[i].y, unreached[j].x, unreached[j].y);
+                    let distance = dist(reached[i].pos.x, reached[i].pos.y, unreached[j].pos.x, unreached[j].pos.y);
                     if (distance < shortestDist) {
                         shortestDist = distance;
                         rIdx = i;

@@ -51,8 +51,8 @@ class PathfindingNode {
         }
 
         if (this.isFinalPath) {
-            fill(70);
-            stroke(70);
+            fill('#00d5ff');
+            stroke('#00d5ff');
         }
         
         if (this.isStartNode) {
