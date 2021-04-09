@@ -3,7 +3,7 @@ class MSTvertex {
         this.x = x;
         this.y = y;
         this.pos = createVector();
-        //kruskals
+        //kruskals helper neighbor array
         this.neighbors = [];
     }
 

@@ -33,7 +33,6 @@ class MST {
             vertex.pos.y = origin.y + (mstHeight * vertex.y);
             vertex.show();
         }
-
     }
 
     prims() {
@@ -104,9 +103,7 @@ class MST {
                     animationQueue.push(this.getEdgesAndVertices());
                 }
             }
-
         }
-
     }
 
     checkIfValidEdge(v1, v2) {

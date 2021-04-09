@@ -7,7 +7,7 @@ class Pathfind {
         this.height;
     }
 
-    updateGrid() {
+    update() {
         if (this.grid.length != slider.value() - 2) {
             this.grid = [];
             for (let i = 0; i < slider.value() - 2; i++) {
@@ -20,19 +20,17 @@ class Pathfind {
                 }
                 this.grid.push(newCol);
             }
-            // this.createMaze();
         }
         this.grid[0][floor(this.grid[0].length/2)].isStartNode = true;
         this.grid[this.grid.length - 1][floor(this.grid[0].length/2)].isEndNode = true;
 
     }
 
-    showGrid() {
+    show() {
 
         let screenPercentage = 0.8;
 
         let pfWidth = displayWidth * screenPercentage;
-        // let pfWidth = width * screenPercentage;
         let pfHeight = height * 0.5;
 
         let nodeSizeX = pfWidth / this.grid.length;
@@ -45,7 +43,6 @@ class Pathfind {
         this.height = pfHeight;
 
         let originX = panelWidth + ((displayWidth - pfWidth) / 2);
-        // let originX = ((width - pfWidth) / 2);
         let originY = (height - pfHeight) / 2;
         this.origin = createVector(originX, originY);
 
@@ -97,7 +94,7 @@ class Pathfind {
                         walls.splice(idx - 2, 4);
                     }
                 } catch {
-                    //  
+                    //do nothing
                 }
             }
 
@@ -118,7 +115,7 @@ class Pathfind {
                 }
             }
         } catch {
-            //
+            //do nothing
         }
     }
 
@@ -151,7 +148,6 @@ class Pathfind {
                         testNode.dk_path.push(testNode);
                     }
                 }
-                // nextFrame.push(testNode.clone());
             }
             visited.push(currentNode);
             let idx = unvisited.indexOf(currentNode);
@@ -188,7 +184,6 @@ class Pathfind {
             for (let i = 0; i < currentNode.dk_path.length; i++) {
                 nextFrame = this.get1DGridClone();
                 currentNode.dk_path[i].isFinalPath = true;
-                // nextFrame.push(currentNode.dk_path[i]);
                 animationQueue.push(nextFrame);
             }
         }
@@ -237,7 +232,6 @@ class Pathfind {
                 for (let i = path.length - 1; i >= 0; i--) {
                     nextFrame = this.get1DGridClone();
                     path[i].isFinalPath = true;
-                    // nextFrame.push(path[i]);
                     animationQueue.push(nextFrame);
                 }
 
@@ -247,10 +241,8 @@ class Pathfind {
             }
 
             closedList.push(currentNode);
-            // currentNode.hasBeenSearched = true;
             let idx = openList.indexOf(currentNode);
             openList.splice(idx, 1);
-            // console.log(currentNode);
             for (let i = 0; i < currentNode.neighbors.length; i++) {
                 let testNode = currentNode.neighbors[i];
                 nextFrame.push(testNode.clone());
@@ -340,6 +332,7 @@ class Pathfind {
         }
         return ret1DArr;
     }
+
     get1DGridClone() {
         let ret1DArrClone = [];
         for (let i = 0; i < this.grid.length; i++) {
@@ -373,14 +366,12 @@ class Pathfind {
     clearPath() {
         for (let i = 0; i < this.grid.length; i++) {
             for (let j = 0; j < this.grid[0].length; j++) {
-                // this.grid[i][j].isWall = false;
                 this.grid[i][j].isDeadEnd = false;
                 this.grid[i][j].hasBeenSearched = false;
                 this.grid[i][j].isFinalPath = false;
                 this.grid[i][j].neighbors = [];
                 this.grid[i][j].dk_tentDist = Infinity;
                 this.grid[i][j].dk_path = [];
-                // this.grid[i][j].
             }
         }
     }

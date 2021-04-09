@@ -10,7 +10,7 @@ class ControlButton {
     }
 
     show() {
-        //for text
+
         push();
         fill(200);
         textAlign(CENTER);
@@ -110,8 +110,6 @@ class ControlButton {
             setupPathfind();
         }
     }
-
-
 }
 
 function triggerAlgorithm() {

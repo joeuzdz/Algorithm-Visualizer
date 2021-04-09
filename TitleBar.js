@@ -19,7 +19,6 @@ class TitleBar {
             default:
                 string = '???';
                 break;
-
         }
 
         push();
