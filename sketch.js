@@ -8,6 +8,7 @@ let midlineX;
 const minScreenWidth = 600;
 const minScreenHeight = 600;
 
+//algo titles on panel
 let titleBars = [];
 
 //button globals
@@ -62,8 +63,7 @@ let animationQueue = [];
 let animationIterator = 0;
 let animationIsPaused = false;
 
-//collection globals 
-let sort;
+//slider
 let slider;
 const sliderMin           = 19;
 const sliderMax           = 101;
@@ -71,6 +71,10 @@ const sliderDefaultValue  = 59;
 const sliderStepInterval  = 2;
 let globalID = 0;
 
+//sort gloabals
+let sort;
+
+//pathfind globals
 let pathfind;
 let didAnimate = false;
 let canDraw = false;
@@ -78,13 +82,13 @@ let doDraw = false;
 let doAddWall = true;
 let mazeImage;
 let binImage;
-
 let isLoading = false;
 let triggerCounter = 0;
 
+//mst globals
 let mst;
 
-//RUNS ONCE  
+//setup run once at start of program
 function setup() {
     createCanvas(max(windowWidth,minScreenWidth), max(windowHeight,minScreenHeight));
     defineGlobals();
@@ -99,7 +103,7 @@ function setup() {
     setupSlider();
 }
 
-//RUNS REPEATEDLY
+//draw loop runs after setup()
 function draw() {
     resizeCanvas(max(windowWidth,minScreenWidth), max(windowHeight,minScreenHeight));
     updateDimensions();
@@ -118,11 +122,9 @@ function draw() {
 
     checkMouse();
 
-    if (animationQueue.length != 0) { //then display animation queue frame by frame
+    //if animation queue is not empty, display each frame and then reset it
+    if (animationQueue.length != 0) { 
         let nextFrame = animationQueue[animationIterator];
-        //IGNORING SWAPPING ANIMATION
-        //FIX
-        // repositionSortingFrame(nextFrame);
        
         if (currentMode == Mode.SORT) {
             for (let bar of nextFrame) {
@@ -137,7 +139,6 @@ function draw() {
                 ve.show();
             }
         }
-        
 
         if (!animationIsPaused) {
             animationIterator++;
@@ -147,24 +148,25 @@ function draw() {
             resetAnimationQueue();
         }
 
-    } else { //check currentMode to see what to display 
+    //animation queue is empty, display proper mode
+    } else { 
 
         if (currentMode == Mode.DEFAULT) {
             displayDefaultMessage();
         } else if (currentMode == Mode.SORT) {
-            sort.updateBars();
+            sort.update();
             sort.show();
         } else if (currentMode == Mode.PATHFIND) {
-            pathfind.updateGrid();
-            pathfind.showGrid();
+            pathfind.update();
+            pathfind.show();
         } else if (currentMode == Mode.MST) {
             mst.update();
             mst.show();
         }
-        
 
     }
 
+    //if pathfinding is loading, display loading message
     if (isLoading) {
         if (currentMode == Mode.PATHFIND && animationQueue.length == 0) {
             fill(200);
@@ -182,7 +184,6 @@ function draw() {
     
 }
 
-//define the globals in setup()
 function defineGlobals() {
     backgroundColor = color('#24476c');
     font = 'monospace';
@@ -192,8 +193,6 @@ function defineGlobals() {
     
     currentAlgo = Algo.DEFAULT;
     currentMode = Mode.DEFAULT;
-
-    // sortCollection = new Sort();
 }
 
 function displayDefaultMessage() {
@@ -201,8 +200,8 @@ function displayDefaultMessage() {
     fill(200);
     textAlign(CENTER);
     textSize(22);
-    text('Click an algorithm', midlineX, height/2 - 15);
-    text('to visualize it!', midlineX, height/2 + 15);
+    text('Select an algorithm', midlineX, height/2 - 15);
+    text('to visualize it', midlineX, height/2 + 15);
     pop();
 }
 
@@ -222,7 +221,7 @@ function showAlgoTitles() {
                 title = 'Dijkstra\'s Algorithm';
                 break;
             case Algo.ASTAR:
-                title = 'A* (Manhattan)';
+                title = 'A* Algorithm (Manhattan Distance)';
                 break;
             case Algo.PRIMS:
                 title = 'Prim\'s Algorithm';
@@ -242,7 +241,6 @@ function showAlgoTitles() {
         pop();
 }
 
-//create the algorithm buttons on the panel
 function setupAlgoButtonsAndTitles() {
     let baseYPos = 150;
     let spacing = algoButtonHeight;
@@ -281,7 +279,6 @@ function setupAlgoButtonsAndTitles() {
 
 function setupControlButtons() {
     playButton = new ControlButton(ControlType.PLAY, 70, 50, true);
-    // pauseButton = new ControlButton(ControlType.PAUSE, 50, 50, false);
     resetButton = new ControlButton(ControlType.RESET, 50, 50, true);
 
     mazeButton = new ControlButton(ControlType.MAZE, 50, 50, true);
@@ -291,11 +288,9 @@ function setupControlButtons() {
     clearButton.isEnabled = true;
 
     controlButtons.push(playButton);
-    // controlButtons.push(pauseButton);
     controlButtons.push(resetButton);
     controlButtons.push(mazeButton);
     controlButtons.push(clearButton);
-
 }
 
 function updateControlButtonPositions() {
@@ -341,20 +336,17 @@ function displayControlButtons() {
     }
 }
 
-//update dimension-dependent variables
 function updateDimensions() {
     displayWidth = width - panelWidth;
     midlineX = displayWidth/2 + panelWidth;
 }
 
-//displays panel where algorithms are shown
 function displayPanel() {
     displayPanelBackground();
     displayTitle();
     displayAlgoButtonsAndTitle();
 }
 
-//displays border of panel
 function displayPanelBackground() {
     push();
     fill('#1e3a59');
@@ -365,7 +357,6 @@ function displayPanelBackground() {
     pop();
 }
 
-//displays the title in the panel
 function displayTitle() {
     push();
     textAlign(CENTER, TOP);
@@ -391,8 +382,6 @@ function displayAlgoButtonsAndTitle() {
     }
 }
 
-
-//displays screen dimensions in lower right corner of screen
 function displayScreenDimensions() {
     push();
     fill(200);
@@ -402,7 +391,7 @@ function displayScreenDimensions() {
     pop();
 }
 
-//displays a vertical and horizontal line through middle of working canvas
+//for positioning debugging
 function displayGridLines() {
     push();
     stroke(0);
@@ -412,7 +401,6 @@ function displayGridLines() {
     pop();
 }
 
-//calls necessary functions when mouse is clicked
 function mouseClicked() {
     for (let button of algoButtons) {
         if (button.rollover() && !button.isSelected) {
@@ -456,7 +444,6 @@ function checkMouse() {
             let i = floor(x / pathfind.nodeSize);
             let y = mouseY - pathfind.origin.y;
             let j = floor(y / pathfind.nodeSize);
-            // console.log(i , j);
             if (doAddWall && !pathfind.grid[i][j].isStartNode && !pathfind.grid[i][j].isEndNode) {
                 pathfind.grid[i][j].isWall = true;
             } else {
@@ -467,7 +454,6 @@ function checkMouse() {
 
 }
 
-//check for mouse over to change cursor
 function checkMousePointer() {
     cursor(ARROW);
     for (let button of algoButtons) {
@@ -484,7 +470,6 @@ function checkMousePointer() {
     }
 }
 
-//sorting functions
 function setupSlider() {
     
     slider = createSlider(sliderMin, 
@@ -510,56 +495,10 @@ function updateSlider() {
     pop();
 }
 
-// function repositionSortingFrame(frame) {
-//     reorderFrame(frame);
-//     let minPercentage = 0.4;
-//     let maxPercentage = 0.8;
-//     let screenPercentage = map(frame.length, numBarsSlider.elt.min, numBarsSlider.elt.max, minPercentage, maxPercentage);
-    
-//     let sortCollectionWidth = displayWidth * screenPercentage;
-//     sortCollectionWidth -= sortCollection.barSpacing * frame.length;
-//     let barWidth = sortCollectionWidth / frame.length;
-    
-//     let midIdx = floor(frame.length/2);
-//     let midBar = frame[midIdx];
-//     midBar.xPos = midlineX;
-
-//     midBar.yPos = height/2;
-//     midBar.width = barWidth;
-
-//     for (let i = 0; i <= midIdx; i++) {
-//         //calculate leftBar position
-//         let leftBar = frame[midIdx - i];
-//         leftBar.xPos = midlineX - i*(barWidth + sortCollection.barSpacing);
-//         leftBar.yPos = height/2;
-//         leftBar.width = barWidth;
-//         //calculate rightBar position
-//         let rightBar = frame[midIdx + i];
-//         rightBar.xPos = midlineX + i*(barWidth + sortCollection.barSpacing);
-//         rightBar.yPos = height/2;
-//         rightBar.width = barWidth;
-//     }
-
-//     return frame;
-// }
-
-// function reorderFrame(frame) {
-//     let swap;
-//     let n = frame.length-1;
-//     do {
-//         swap = false;
-//         for (let i = 0; i < n; i++)
-//         {
-//             if (frame[i].xPos > frame[i+1].xPos){
-//                 let temp = frame[i];
-//                 frame[i] = frame[i+1];
-//                 frame[i+1] = temp;
-//                 swap = true;
-//             }
-//         }
-//         n--;
-//     } while (swap);
-// }
-
-
-
+function resetAnimationQueue() {
+    animationQueue = [];
+    animationIterator = 0;
+    animationIsPaused = false;
+    playButton.isEnabled = false;
+    playButton.isPaused = true;
+}
