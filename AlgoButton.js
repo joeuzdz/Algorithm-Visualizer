@@ -1,4 +1,3 @@
-//scratch button class for butttons on panel
 class AlgoButton {
     constructor(yPos, type) {
         this.yPos = yPos;
@@ -6,7 +5,6 @@ class AlgoButton {
         this.isSelected = false;
     }
 
-    //show the button with necessary highlighting
     show() {
         push();
         rectMode(CORNER);
@@ -23,7 +21,6 @@ class AlgoButton {
             rect(2, this.yPos, panelWidth - 5, algoButtonHeight);
             fill(10);
         }
-        
         
         let string;
         switch (this.type) {
@@ -57,14 +54,12 @@ class AlgoButton {
         pop();
     }
 
-    //returns true if mouse is on the button
     rollover() {
         return ((mouseX > 0) && (mouseX < panelWidth) && (mouseY >= this.yPos) && (mouseY < this.yPos + algoButtonHeight));
     }
 
-    //gets called when button is clicked
+
     clicked() {
-    
         //deselect all other buttons
         for (let button of algoButtons) { button.isSelected = false; }
         //select this button
@@ -107,9 +102,7 @@ class AlgoButton {
                 setupMST();
                 console.log('kruskals');
                 break;
-
         }
-        
     }
 }
 
@@ -122,7 +115,7 @@ function setupSort() {
     mazeButton.isEnabled = false;
     clearButton.isEnabled = false;
     sort = new Sort();
-    sort.updateBars();
+    sort.update();
     
     updateSlider();
     if (currentMode == Mode.PATHFIND) {
@@ -136,6 +129,7 @@ function setupSort() {
 }
 
 function setupPathfind() {
+
     canDraw = true;
     resetAnimationQueue();
     playButton.isEnabled = true;
@@ -145,13 +139,10 @@ function setupPathfind() {
     clearButton.isEnabled = true;
     if (currentMode != Mode.PATHFIND) {
         pathfind = new Pathfind();
-        pathfind.updateGrid();
+        pathfind.update();
     } else {
         pathfind.clearPath();
     }
-
-  
-    
 
     updateSlider();
     if (currentMode != Mode.PATHFIND) {
@@ -165,6 +156,7 @@ function setupPathfind() {
 }
 
 function setupMST() {
+
     resetAnimationQueue();
     playButton.isEnabled = true;
     playButton.isPaused = true;
@@ -185,10 +177,3 @@ function setupMST() {
     currentMode = Mode.MST;
 }
 
-function resetAnimationQueue() {
-    animationQueue = [];
-    animationIterator = 0;
-    animationIsPaused = false;
-    playButton.isEnabled = false;
-    playButton.isPaused = true;
-}

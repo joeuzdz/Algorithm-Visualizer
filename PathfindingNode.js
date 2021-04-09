@@ -25,7 +25,6 @@ class PathfindingNode {
         this.size = nodeSize;
         this.pos = createVector(originX + this.x * nodeSize, originY + this.y * nodeSize);
 
-        
         push();
         rectMode(CORNER);
         translate(originX, originY);
